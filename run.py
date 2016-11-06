@@ -154,8 +154,8 @@ def create_all_relations_command():
 
 	-- Create backup relations
 	CREATE TABLE '''+lea_school_backup_rel+''' (
-	 academic_year_start int DEFAULT 2012,
-	 academic_year_end int DEFAULT 2013,
+	 academic_year_start int,
+	 academic_year_end int,
 	 aun int,
 	 lea_name varchar(100),
 	 lea_type varchar(50),
@@ -189,8 +189,8 @@ def create_all_relations_command():
 	);
 
 	CREATE TABLE '''+lea_school_gender_backup_rel+''' (
-	 academic_year_start int DEFAULT 2012,
-	 academic_year_end int DEFAULT 2013,
+	 academic_year_start int,
+	 academic_year_end int,
 	 aun int,
 	 lea_name varchar(100),
 	 lea_type varchar(50),
@@ -225,8 +225,8 @@ def create_all_relations_command():
 	);
 
 	CREATE TABLE '''+lea_race_backup_rel+''' (
-	 academic_year_start int DEFAULT 2012,
-	 academic_year_end int DEFAULT 2013,
+	 academic_year_start int,
+	 academic_year_end int,
 	 aun int,
 	 lea_name varchar(100),
 	 lea_type varchar(50),
