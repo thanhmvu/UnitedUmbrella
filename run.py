@@ -511,12 +511,13 @@ def load_public_year(academic_year_start, academic_year_end, lea_school_input_fi
 # command += drop_all_relations_command()
 # command += create_all_relations_command()
 
+file = open ("loadCSVtoBackup.sql","w")
 
 # add commands to load data
 for academic_year_start in range(2007,2016):
 	academic_year_end = academic_year_start + 1
 
-	file = open("public"+`(academic_year_start%100)`.zfill(2)+`(academic_year_end%100)`.zfill(2)+"load.sql","w")
+	# file = open("public"+`(academic_year_start%100)`.zfill(2)+`(academic_year_end%100)`.zfill(2)+"load.sql","w")
 	command = ''
 
 	folder_name = './public/Enrollment Public School '+`academic_year_start`+'-'+`(academic_year_end%100)`.zfill(2)+'.xls Data/'
@@ -533,7 +534,9 @@ for academic_year_start in range(2007,2016):
 		command += load_public_year(academic_year_start, academic_year_end, lea_school_input_file, lea_school_gender_input_file, lea_race_input_file)
 
 	file.write(command)
-	file.close()
+	# file.close()
+
+file.close()
 
 file = open ("loadBackupToPermanent.sql","w")
 command = load_backup_to_permanent_command()
