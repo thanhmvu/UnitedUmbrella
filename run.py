@@ -52,7 +52,7 @@ def create_all_relations_command():
 	 school_id int,
 	 school_name varchar(100),
 	 aun int,
-	 PRIMARY KEY (school_id,aun)
+	 PRIMARY KEY (school_id)
 	);
 
 	CREATE TABLE '''+school_enrollment_permanent_rel+''' (
@@ -84,7 +84,7 @@ def create_all_relations_command():
 	 grade12 int,
 	 sug int,
 	 total int,
-	 PRIMARY KEY (academic_year_start, academic_year_end, school_id, aun)
+	 PRIMARY KEY (academic_year_start, academic_year_end, school_id)
 	);
 
 	CREATE TABLE '''+school_gender_enrollment_permanent_rel+''' (
@@ -117,7 +117,7 @@ def create_all_relations_command():
 	 grade12 int,
 	 sug int,
 	 total int,
-	 PRIMARY KEY (academic_year_start, academic_year_end, school_id, aun, gender)
+	 PRIMARY KEY (academic_year_start, academic_year_end, school_id, gender)
 	);
 
 	CREATE TABLE '''+lea_race_enrollment_permanent_rel+''' (
@@ -455,7 +455,7 @@ def load_backup_to_permanent_command():
 	INSERT INTO '''+schools_permanent_rel+''' (school_id, school_name, aun)
 	SELECT school_id, school_name, aun 
 	FROM '''+lea_school_backup_rel+'''
-	WHERE school_id NOT IN (SELECT aun FROM '''+schools_permanent_rel+''');
+	WHERE school_id > 0 AND school_id < 9999 AND school_id NOT IN (SELECT school_id FROM '''+schools_permanent_rel+''');
 
 	-- add data to other relations
 	INSERT INTO '''+school_enrollment_permanent_rel+''' 
