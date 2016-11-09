@@ -447,15 +447,32 @@ def load_temp_to_backup_command(year_start):
 def load_backup_to_permanent_command():
 	command = '''
 	-- add data to static info relations 
-	INSERT INTO '''+lea_permanent_rel+''' (aun, lea_name, lea_type, county)
-	SELECT aun, lea_name, lea_type, county 
-	FROM '''+lea_school_backup_rel+'''
-	WHERE aun NOT IN (SELECT aun FROM '''+lea_permanent_rel+''');
+	INSERT INTO '''+lea_permanent_rel+''' (aun)
+	SELECT distinct aun 
+	FROM '''+lea_school_backup_rel+''';
 
-	INSERT INTO '''+schools_permanent_rel+''' (school_id, school_name, aun)
-	SELECT school_id, school_name, aun 
+	UPDATE '''+lea_permanent_rel+''' SET 
+	lea_name = '''+lea_school_backup_rel+'''.lea_name, 
+	lea_type = '''+lea_school_backup_rel+'''.lea_type, 
+	county = '''+lea_school_backup_rel+'''.county
 	FROM '''+lea_school_backup_rel+'''
-	WHERE school_id > 0 AND school_id < 9999 AND school_id NOT IN (SELECT school_id FROM '''+schools_permanent_rel+''');
+	WHERE '''+lea_permanent_rel+'''.aun = '''+lea_school_backup_rel+'''.aun;
+
+
+	INSERT INTO '''+schools_permanent_rel+''' (school_id)
+	SELECT distinct school_id 
+	FROM '''+lea_school_backup_rel+'''
+	WHERE '''+lea_school_backup_rel+'''.school_id > 0 
+	AND '''+lea_school_backup_rel+'''.school_id < 9999;
+
+	UPDATE '''+schools_permanent_rel+''' SET 
+	school_name = '''+lea_school_backup_rel+'''.school_name, 
+	aun = '''+lea_school_backup_rel+'''.aun
+	FROM '''+lea_school_backup_rel+'''
+	WHERE '''+schools_permanent_rel+'''.school_id = '''+lea_school_backup_rel+'''.school_id
+	AND '''+lea_school_backup_rel+'''.school_id > 0 
+	AND '''+lea_school_backup_rel+'''.school_id < 9999;
+
 
 	-- add data to other relations
 	INSERT INTO '''+school_enrollment_permanent_rel+''' 
