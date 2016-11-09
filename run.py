@@ -509,7 +509,7 @@ def load_backup_to_permanent_command():
 	pka, pkp, pkf, k4a, k4p, k4f, k5a, k5p, k5f, 
 	grade1, grade2, grade3, grade4, grade5, grade6, eug, 
 	grade7, grade8, grade9, grade10, grade11, grade12, sug, total
-	FROM '''+lea_race_backup_rel+''';
+	FROM '''+lea_race_backup_rel+''' WHERE aun != 124151607 AND aun != 118408607;
 	'''
 	return command
 
