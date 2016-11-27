@@ -2,7 +2,8 @@ Rails.application.routes.draw do
 #  root 'public_lea#index'
 
   resources :public_lea, :only => [:index, :show] # make the request RESTful
-
+  get 'main/welcome'
+  get 'main/elements'
 #  get 'public_lea/index'
 #  get 'public_lea/show'
 
