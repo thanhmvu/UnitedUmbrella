@@ -1,0 +1,20 @@
+<h1>PublicLea#index</h1>
+<p>Find me in app/views/public_lea/index.html.erb</p>
+<p>
+<table>
+<tr>
+<th>aun</th>
+<th>lea_name</th>
+<th>lea_type</th>
+<th>county</th>
+</tr>
+<% @leas.each do | l | %>
+<tr>
+<td><%= l.aun  %></td>
+<td><%= l.lea_name %><br></td>
+<td><%= l.lea_type %><br></td>
+<td><%= l.county %><br></td>
+</tr>
+<% end %>
+</table>
+</p>
