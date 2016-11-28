@@ -4,7 +4,7 @@ class PublicLeaController < ApplicationController
   end
 
   def show
-      @aun = params[:aun]
+      @aun = params[:id]
       @lea = PublicLea.find_by_aun(@aun)
   end
 end
