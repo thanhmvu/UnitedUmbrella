@@ -5,4 +5,8 @@ class MainController < ApplicationController
 
 	def elements
 	end
+
+	def public_lea
+		redirect_to(:controller => 'public_lea_controller')
+	end
 end

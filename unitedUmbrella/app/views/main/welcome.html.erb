@@ -24,10 +24,10 @@
 					<div id="menu">
 						<ul>
 							<li><a href="#">Home</a></li>
-							<!-- <li><a href="generic.html">Generic</a></li>
+							<li><a href="#about">About</a></li>
 							<li><a href="elements.html">Elements</a></li>
 							<li><a href="#">Sign Up</a></li>
-							<li><a href="#">Log In</a></li> -->
+							<li><a href="#">Log In</a></li>
 						</ul>
 					</div>
 				</li>
@@ -43,7 +43,75 @@
 				<h2>Umbrella Corporation</h2>
 			</div>
 			<a href="#overview" class="more scrolly">Keep exploring</a>
-			</section>
+		</section>
+
+		<section class="wrapper style5" id="about">
+			<div class="inner">
+				<h3>About</h3>
+				<p>
+					This website contains data from:
+					<ul>
+						<li> Public schools’ enrollment reports from 2004 - 2016 and private schools’ from 2005 - 2016. Data is obtained from the <a href="http://www.education.pa.gov/Data-and-Statistics/Pages/Enrollment%20Reports%20and%20Projections.aspx#tab-1">Pennsylvania Department of Education website.</a> </li>
+
+						<li> Pennsylvania’s state accountability assessment by school in 2013-2014, obtained from the <a href="http://www.paschoolperformance.org/">Pennsylvania School Performance Profile website</a>. </li>
+					</ul>
+					Here you can view many kinds of information about schools in PA. We will query our database and visualize the requested info in beautiful graphs!
+				</p>			
+			</div>
+		</section>
+
+		<section class="wrapper style3">
+			<div class="inner">
+				<h3>Your query</h3>
+
+				<!-- VIEW ALL PUBLIC SCHOOLS -->
+				<h4>View all public schools</h4>
+				<ul class="actions">
+					<li>
+						<a href="/public_lea/" class="button special" id="submitButton"> Submit </a>
+					</li>			
+				</ul>
+
+				<!-- VIEW ONE PUBLIC SCHOOL BASED ON LEA -->
+				<h4>View one school</h4>
+				<form method="get" action="/public_lea/show">
+					<div class="row uniform">
+						<div class="12u 12u$(xsmall)">
+							<input type="text" name="aun" value="" placeholder="AUN of school" />
+						</div>
+						<ul class="actions">
+								<li>
+									<button class="button special" id="submitButton"> Submit </button>
+								</li>			
+							</ul>
+					</div>
+				</form>
+
+				<!-- COMPARE TWO PUBLIC SCHOOLS BASED ON LEA -->
+				<form method="get" action="/public_lea/show">
+					<div class="row uniform">
+						<div class="6u 12u$(xsmall)">
+							<input type="text" name="aun" value="" placeholder="AUN of first school" />
+						</div>
+						<div class="6u$ 12u$(xsmall)">
+							<input type="email" name="aun2" value="" placeholder="AUN of second school" />
+						</div>
+						<br>
+						<ul class="actions">
+							<li>
+								<button class="button special" id="submitButton"> Submit </button>
+							</li>			
+						</ul>
+					</div>
+				</form>
+			</div>
+		</section>
+
+		<section class="wrapper style5">
+			<div class="inner">
+				<h3>Output</h3>	
+			</div>		
+		</section>
 	</article>
 
 	<!-- Footer -->
@@ -55,11 +123,18 @@
 </div>
 
 <!-- Scripts -->
-<%= javascript_include_tag "jquery.min" %>
-<%= javascript_include_tag "jquery.scrollex.min" %>
-<%= javascript_include_tag "jquery.scrolly.min" %>
-<%= javascript_include_tag "skel.min" %>
-<%= javascript_include_tag "util" %>
-<%= javascript_include_tag "welcome_page" %>
+<%= javascript_include_tag("jquery.min") %>
+<%= javascript_include_tag("jquery.scrollex.min") %>
+<%= javascript_include_tag("jquery.scrolly.min") %>
+<%= javascript_include_tag("skel.min") %>
+<%= javascript_include_tag("util") %>
+<%= javascript_include_tag("welcome_page") %>
+
+<script type="javascript">
+	$('.button').on('click', function() {
+		var form = $(this).parents('form:first');
+		form.submit();
+	});
+</script>
 </body>
 </html>
