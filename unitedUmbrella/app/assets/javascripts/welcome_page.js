@@ -98,3 +98,17 @@
 	});
 
 })(jQuery);
+
+
+$(document).ready( function () {
+	console.log("ready");
+	$('.button').on('click', function() {
+		var form = $(this).parents('form:first');
+		form.submit();
+	});
+	$('#submit_multiple').attr('disabled', true);
+	$('#demo-category').on('change', function () {
+		var numberOfSchools = $(this).val();
+		console.log(numberOfSchools);
+	});
+});

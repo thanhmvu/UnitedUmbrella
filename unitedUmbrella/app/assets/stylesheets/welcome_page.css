@@ -1,5 +1,5 @@
-@import url("font-awesome.min.css");
-@import url("http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,800,800italic");
+/*@import url("font-awesome.min.css");
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,800,800italic");*/
 
 /*
 	Spectral by HTML5 UP
@@ -3966,10 +3966,7 @@ ul.no-bullets { list-style-type: none; margin: 0px; padding: 0px; }
 .content-wrapper.whiter{
   background:#FFF
 }
-.content-wrapper.rocket{
-  background:url(../images/mathbackground.jpg) #14284C;
-  background-size:cover;
-}
+
 .content-wrapper h3 {
   color:#565353;
   font-weight:200;

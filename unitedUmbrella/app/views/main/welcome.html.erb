@@ -14,26 +14,26 @@
 <body>
 <!-- Page Wrapper -->
 <div id="page-wrapper">
+
 	<!-- Header -->
 	<header id="header">
-		<h1><a href="#">We are UC</a></h1>
+		<h1><a href="index.html">Spectral</a></h1>
 		<nav id="nav">
 			<ul>
 				<li class="special">
 					<a href="#menu" class="menuToggle"><span>Menu</span></a>
 					<div id="menu">
 						<ul>
-							<li><a href="#">Home</a></li>
 							<li><a href="#about">About</a></li>
-							<li><a href="elements.html">Elements</a></li>
-							<li><a href="#">Sign Up</a></li>
-							<li><a href="#">Log In</a></li>
+							<li><a href="#user_input">Query</a></li>
+							<li><a href="#output">Results</a></li>
 						</ul>
 					</div>
 				</li>
 			</ul>
 		</nav>
 	</header>
+
 
 	<!-- Main -->
 	<article id="main">
@@ -42,7 +42,7 @@
 				<p>Welcome to</p>
 				<h2>Umbrella Corporation</h2>
 			</div>
-			<a href="#overview" class="more scrolly">Keep exploring</a>
+			<a href="#about" class="more scrolly">Keep exploring</a>
 		</section>
 
 		<section class="wrapper style5" id="about">
@@ -60,7 +60,7 @@
 			</div>
 		</section>
 
-		<section class="wrapper style3">
+		<section class="wrapper style3" id="user_input">
 			<div class="inner">
 				<h3>Your query</h3>
 
@@ -81,13 +81,14 @@
 						</div>
 						<ul class="actions">
 								<li>
-									<button class="button special" id="submitButton"> Submit </button>
+									<button class="button special"> Submit </button>
 								</li>			
 							</ul>
 					</div>
 				</form>
 
 				<!-- COMPARE TWO PUBLIC SCHOOLS BASED ON LEA -->
+				<h4>View two schools</h4>
 				<form method="get" action="/public_lea/show">
 					<div class="row uniform">
 						<div class="6u 12u$(xsmall)">
@@ -99,15 +100,38 @@
 						<br>
 						<ul class="actions">
 							<li>
-								<button class="button special" id="submitButton"> Submit </button>
+								<button class="button special"> Submit </button>
 							</li>			
 						</ul>
 					</div>
 				</form>
+
+				<!-- COMPARE MULTIPLE PUBLIC SCHOOLS BASED ON LEA -->
+				<h4>View multiple schools </h4>
+				<div id="multiple_school_boxes">
+					<div class="4u$">
+						<div class="select-wrapper">
+							<select name="demo-category" id="demo-category">
+								<option value="">- Select number of schools -</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+							</select>
+						</div>
+					</div>
+					<br>
+					<ul class="actions">
+						<li>
+							<button class="button special" id="submit_multiple"> Submit </button>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</section>
 
-		<section class="wrapper style5">
+		<section class="wrapper style5" id="output">
 			<div class="inner">
 				<h3>Output</h3>	
 			</div>		
@@ -122,19 +146,6 @@
 	</footer>
 </div>
 
-<!-- Scripts -->
-<%= javascript_include_tag("jquery.min") %>
-<%= javascript_include_tag("jquery.scrollex.min") %>
-<%= javascript_include_tag("jquery.scrolly.min") %>
-<%= javascript_include_tag("skel.min") %>
-<%= javascript_include_tag("util") %>
-<%= javascript_include_tag("welcome_page") %>
 
-<script type="javascript">
-	$('.button').on('click', function() {
-		var form = $(this).parents('form:first');
-		form.submit();
-	});
-</script>
 </body>
 </html>
