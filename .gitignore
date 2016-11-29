@@ -1,5 +1,6 @@
 */*.csv
 *.DS_Store
+*._*
 
 public/
 

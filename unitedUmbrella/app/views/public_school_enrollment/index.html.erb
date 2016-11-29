@@ -1,0 +1,68 @@
+<h1>PublicSchoolEnrollment#index</h1>
+<p>Find me in app/views/public_school_enrollment/index.html.erb</p>
+<p>
+<table>
+<tr>
+<th>academic_year_start</th>
+<th>academic_year_end</th>
+<th>school_id</th>
+<th>aun</th>
+<th>pka</th>
+<th>pkp</th>
+<th>pkf</th>
+<th>k4a</th>
+<th>k4p</th>
+<th>k4f</th>
+<th>k5a</th>
+<th>k5p</th>
+<th>k5f</th>
+<th>grade1</th>
+<th>grade2</th>
+<th>grade3</th>
+<th>grade4</th>
+<th>grade5</th>
+<th>grade6</th>
+<th>eug</th>
+<th>grade7</th>
+<th>grade8</th>
+<th>grade9</th>
+<th>grade10</th>
+<th>grade11</th>
+<th>grade12</th>
+<th>sug</th>
+<th>total</th>
+</tr>
+<% @schools.each do | s | %>
+<tr>
+<td><%= s.academic_year_start  %></td>
+<td><%= s.academic_year_end  %><br></td>
+<td><%= s.school_id  %><br></td>
+<td><%= s.aun  %><br></td>
+<td><%= s.pka  %><br></td>
+<td><%= s.pkp  %><br></td>
+<td><%= s.pkf  %><br></td>
+<td><%= s.k4a  %><br></td>
+<td><%= s.k4p  %><br></td>
+<td><%= s.k4f  %><br></td>
+<td><%= s.k5a  %><br></td>
+<td><%= s.k5p  %><br></td>
+<td><%= s.k5f  %><br></td>
+<td><%= s.grade1  %><br></td>
+<td><%= s.grade2  %><br></td>
+<td><%= s.grade3  %><br></td>
+<td><%= s.grade4  %><br></td>
+<td><%= s.grade5  %><br></td>
+<td><%= s.grade6  %><br></td>
+<td><%= s.eug  %><br></td>
+<td><%= s.grade7  %><br></td>
+<td><%= s.grade8  %><br></td>
+<td><%= s.grade9  %><br></td>
+<td><%= s.grade10  %><br></td>
+<td><%= s.grade11  %><br></td>
+<td><%= s.grade12  %><br></td>
+<td><%= s.sug  %><br></td>
+<td><%= s.total  %><br></td>
+</tr>
+<% end %>
+</table>
+</p>
