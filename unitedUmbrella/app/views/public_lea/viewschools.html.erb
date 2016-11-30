@@ -1,0 +1,9 @@
+<% unless @invalid_auns.empty? %>
+	<%= show_error_message("The following AUNs do not exist:\n" + @invalid_auns.join("\n")) %>
+<% else %>
+	<% @leas.each do |l| %>
+		<%= l.lea_name %>
+		<br>
+	<% end %>
+<% end %>
+

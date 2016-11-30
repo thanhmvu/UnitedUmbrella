@@ -11,6 +11,25 @@
   </head>
 
   <body>
-    <%= yield %>
+    <!-- Header -->
+    <header id="header">
+      <h1><%= link_to "UC", root_url, :class => 'more scrolly' %></h1>
+      <nav id="nav">
+        <ul>
+          <li class="special">
+            <a href="#menu" class="menuToggle"><span>Menu</span></a>
+            <div id="menu">
+              <ul>
+                <li><%= link_to "Home", root_url, :class => 'more scrolly' %></li>
+                <li><%= link_to "Public schools", '/public_lea', :class => 'more scrolly' %></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div id="page-wrapper">
+      <%= yield %>
+    </div>
   </body>
 </html>
