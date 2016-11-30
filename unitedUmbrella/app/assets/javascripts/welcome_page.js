@@ -100,8 +100,15 @@
 })(jQuery);
 
 
-$(document).ready( function () {
+$(document).ready( function() {
+	ready();
+});
+$(document).on('turbolinks:load', function() {
+	ready();
+});
 
+var ready = function() {
+	$('#demo-category').val('');
 	// trigger all form submissions
 	$('.button').on('click', function() {
 		var form = $(this).parents('form:first');
@@ -124,9 +131,7 @@ $(document).ready( function () {
 			createInputBox( i, numberOfBoxes );
 		}
 	});
-});
-
-
+}
 
 function createInputBox( id, numberOfBoxes ) {
 	var inputBox;
@@ -144,19 +149,7 @@ function createInputBox( id, numberOfBoxes ) {
 	}
 }
 
-$(window).on('load', function () {
-	$('#submit_multiple').attr('disabled', true);
-	$('#demo-category').val('');
-	$('#demo-category').on('change', function () {
-		$('#multiple_schools_input').empty();
-		if ( $(this).val() == "" ) {
-			$('#submit_multiple').attr('disabled', true);
-			return;
-		}
-		var numberOfBoxes = $(this).val();
-		$('#submit_multiple').attr('disabled', false);	
-		for ( var i = 1 ; i <= numberOfBoxes ; i++ ) {
-			createInputBox( i, numberOfBoxes );
-		}
-	});
-});
+// $(window).on('load', function () {
+// 	$('#submit_multiple').attr('disabled', true);
+// 	$('#demo-category').val('');
+// });

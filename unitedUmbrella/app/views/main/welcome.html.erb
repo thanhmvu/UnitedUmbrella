@@ -1,124 +1,94 @@
 <!-- Page Wrapper -->
-<div id="page-wrapper">
+<!-- Main -->
+<article id="main">
+	<section id="banner">
+		<div class="inner">
+			<p>Welcome to</p>
+			<h2>Umbrella Corporation</h2>
+		</div>
+		<a href="#about" class="more scrolly">Keep exploring</a>
+	</section>
 
-	<!-- Header -->
-	<header id="header">
-		<h1>UC</h1>
-		<nav id="nav">
-			<ul>
-				<li class="special">
-					<a href="#menu" class="menuToggle"><span>Menu</span></a>
-					<div id="menu">
-						<ul>
-							<li><a href="#main" class="more scrolly">Home</a></li>
-							<li><a href="#about" class="more scrolly">About</a></li>
-							<li><a href="#user_input" class="more scrolly">Query</a></li>
-							<li><a href="#output" class="more scrolly">Results</a></li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-		</nav>
-	</header>
+	<section class="wrapper style5" id="about">
+		<div class="inner">
+			<h3>About</h3>
+			<p>
+				This website contains data from:
+				<ul>
+					<li> Public schools’ enrollment reports from 2004 - 2016 and private schools’ from 2005 - 2016. Data is obtained from the <a href="http://www.education.pa.gov/Data-and-Statistics/Pages/Enrollment%20Reports%20and%20Projections.aspx#tab-1">Pennsylvania Department of Education website.</a> </li>
 
-
-	<!-- Main -->
-	<article id="main">
-		<section id="banner">
-			<div class="inner">
-				<p>Welcome to</p>
-				<h2>Umbrella Corporation</h2>
-			</div>
-			<a href="#about" class="more scrolly">Keep exploring</a>
-		</section>
-
-		<section class="wrapper style5" id="about">
-			<div class="inner">
-				<h3>About</h3>
-				<p>
-					This website contains data from:
-					<ul>
-						<li> Public schools’ enrollment reports from 2004 - 2016 and private schools’ from 2005 - 2016. Data is obtained from the <a href="http://www.education.pa.gov/Data-and-Statistics/Pages/Enrollment%20Reports%20and%20Projections.aspx#tab-1">Pennsylvania Department of Education website.</a> </li>
-
-						<li> Pennsylvania’s state accountability assessment by school in 2013-2014, obtained from the <a href="http://www.paschoolperformance.org/">Pennsylvania School Performance Profile website</a>. </li>
-					</ul>
-					Here you can view many kinds of information about schools in PA. We will query our database and visualize the requested info in beautiful graphs!
-				</p>			
-			</div>
-		</section>
-
-		<section class="wrapper style3" id="user_input">
-			<div class="inner">
-				<h3>Your query</h3>
-
-				<!-- VIEW ALL PUBLIC SCHOOLS -->
-				<h4>View all public schools</h4>
-				<ul class="actions">
-					<li>
-						<%= link_to("Submit", '/public_lea', :class => 'button special', :id => 'submitButton') %>
-					</li>			
+					<li> Pennsylvania’s state accountability assessment by school in 2013-2014, obtained from the <a href="http://www.paschoolperformance.org/">Pennsylvania School Performance Profile website</a>. </li>
 				</ul>
+				Here you can view many kinds of information about schools in PA. We will query our database and visualize the requested info in beautiful graphs!
+			</p>			
+		</div>
+	</section>
 
-				<!-- VIEW ONE PUBLIC SCHOOL BASED ON LEA -->
-				<h4>View one school</h4>
-				<form method="get" action="main/view_public_by_aun">
-					<div class="row uniform">
-						<div class="12u 12u$(xsmall)">
-							<input type="text" name="id" value="" placeholder="AUN of school" />
-						</div>
-						<ul class="actions">
-								<li>
-									<button class="button special"> Submit </button>
-								</li>			
-							</ul>
-					</div>
-				</form>
+	<section class="wrapper style3" id="user_input">
+		<div class="inner">
+			<h2>Public schools</h2>
 
-				<!-- COMPARE MULTIPLE PUBLIC SCHOOLS BASED ON LEA -->
-				<h4>View multiple schools </h4>
+			<!-- VIEW ALL PUBLIC SCHOOLS -->
+			<h4>View all public schools</h4>
+			<ul class="actions">
+				<li>
+					<%= link_to("Submit", '/public_lea', :class => 'button special', :id => 'submitButton') %>
+				</li>			
+			</ul>
+
+			<!-- VIEW ONE PUBLIC SCHOOL BASED ON LEA -->
+			<h4>View one school</h4>
+			<form method="get" action="main/view_public_by_aun">
 				<div class="row uniform">
-					<div class="4u$">
-						<div class="select-wrapper">
-							<select name="demo-category" id="demo-category">
-								<option value="">- Select number of schools -</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
-							</select>
-						</div>
+					<div class="12u 12u$(xsmall)">
+						<input type="text" name="id" value="" placeholder="AUN of school" />
 					</div>
-				</div>
-
-
-				<form method="get" action="/public_lea/viewschools">
-					<div class="row uniform" id="multiple_schools_input">						
-					</div>
-					<br>
-					<div class="row uniform">
-						<ul class="actions">
+					<ul class="actions">
 							<li>
-								<button class="button special" id="submit_multiple"> Submit </button>
+								<button class="button special"> Submit </button>
 							</li>			
 						</ul>
+				</div>
+			</form>
+
+			<!-- COMPARE MULTIPLE PUBLIC SCHOOLS BASED ON LEA -->
+			<h4>View multiple schools </h4>
+			<div class="row uniform">
+				<div class="4u$">
+					<div class="select-wrapper">
+						<select name="demo-category" id="demo-category">
+							<option value="">- Select number of schools -</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+						</select>
 					</div>
-				</form>
+				</div>
 			</div>
-		</section>
 
-		<section class="wrapper style5" id="output">
-			<div class="inner">
-				<h3>Output</h3>	
-			</div>		
-		</section>
-	</article>
 
-	<!-- Footer -->
-	<footer id="footer">
-		<ul class="copyright">
-			<li>&copy; Andrew Ortiz, Huy Nguyen, Michael Teddick, Thanh Vu</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-		</ul>
-	</footer>
+			<form method="get" action="/public_lea/viewschools">
+				<div class="row uniform" id="multiple_schools_input">						
+				</div>
+				<br>
+				<div class="row uniform">
+					<ul class="actions">
+						<li>
+							<button class="button special" id="submit_multiple"> Submit </button>
+						</li>			
+					</ul>
+				</div>
+			</form>
+		</div>
+	</section>
+</article>
 
-</div>
+<!-- Footer -->
+<footer id="footer">
+	<ul class="copyright">
+		<li>&copy; Andrew Ortiz, Huy Nguyen, Michael Teddick, Thanh Vu</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+	</ul>
+</footer>
+
