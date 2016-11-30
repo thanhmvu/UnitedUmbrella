@@ -4,6 +4,18 @@
 <div id="graph1">
 </div>
 <%= javascript_include_tag('public_lea.js') %>
+<script type="text/javascript">
+ var lea_type = ["CS","SD","IU","OCCCTC","SJCI","COMCTC","STATE","SPJ"];
+ lea_type[0] = <%= @lea_type["CS"] %>;
+ lea_type[1] = <%= @lea_type["SD"] %>;
+ lea_type[2] = <%= @lea_type["IU"] %>;
+ lea_type[3] = <%= @lea_type["OCCCTC"] %>;
+ lea_type[4] = <%= @lea_type["SJCI"] %>;
+ lea_type[5] = <%= @lea_type["COMCTC"] %>;
+ lea_type[6] = <%= @lea_type["STATE"] %>;
+ lea_type[7] = <%= @lea_type["SPJ"] %>;
+ render_graph(lea_type);
+</script>
 <table>
 <tr>
 <th>aun</th>
