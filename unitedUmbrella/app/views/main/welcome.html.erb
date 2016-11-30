@@ -17,16 +17,17 @@
 
 	<!-- Header -->
 	<header id="header">
-		<h1><a href="index.html">Spectral</a></h1>
+		<h1>UC</h1>
 		<nav id="nav">
 			<ul>
 				<li class="special">
 					<a href="#menu" class="menuToggle"><span>Menu</span></a>
 					<div id="menu">
 						<ul>
-							<li><a href="#about">About</a></li>
-							<li><a href="#user_input">Query</a></li>
-							<li><a href="#output">Results</a></li>
+							<li><a href="#main" class="more scrolly">Home</a></li>
+							<li><a href="#about" class="more scrolly">About</a></li>
+							<li><a href="#user_input" class="more scrolly">Query</a></li>
+							<li><a href="#output" class="more scrolly">Results</a></li>
 						</ul>
 					</div>
 				</li>
@@ -68,16 +69,16 @@
 				<h4>View all public schools</h4>
 				<ul class="actions">
 					<li>
-						<a href="/public_lea/" class="button special" id="submitButton"> Submit </a>
+						<%= link_to("Submit", '/public_lea', :class => 'button special', :id => 'submitButton') %>
 					</li>			
 				</ul>
 
 				<!-- VIEW ONE PUBLIC SCHOOL BASED ON LEA -->
 				<h4>View one school</h4>
-				<form method="get" action="/public_lea/show">
+				<form method="get" action="main/view_public_by_aun">
 					<div class="row uniform">
 						<div class="12u 12u$(xsmall)">
-							<input type="text" name="aun" value="" placeholder="AUN of school" />
+							<input type="text" name="id" value="" placeholder="AUN of school" />
 						</div>
 						<ul class="actions">
 								<li>
@@ -86,6 +87,7 @@
 							</ul>
 					</div>
 				</form>
+
 
 				<!-- COMPARE TWO PUBLIC SCHOOLS BASED ON LEA -->
 				<h4>View two schools</h4>
@@ -108,7 +110,7 @@
 
 				<!-- COMPARE MULTIPLE PUBLIC SCHOOLS BASED ON LEA -->
 				<h4>View multiple schools </h4>
-				<div id="multiple_school_boxes">
+				<div id="multiple_school_boxes" class="row uniform">
 					<div class="4u$">
 						<div class="select-wrapper">
 							<select name="demo-category" id="demo-category">
@@ -121,7 +123,6 @@
 							</select>
 						</div>
 					</div>
-					<br>
 					<ul class="actions">
 						<li>
 							<button class="button special" id="submit_multiple"> Submit </button>
@@ -145,7 +146,6 @@
 		</ul>
 	</footer>
 </div>
-
 
 </body>
 </html>

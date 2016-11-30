@@ -6,7 +6,7 @@ class MainController < ApplicationController
 	def elements
 	end
 
-	def public_lea
-		redirect_to(:controller => 'public_lea_controller')
+	def view_public_by_aun
+		redirect_to public_lea_path(params[:id])
 	end
 end
