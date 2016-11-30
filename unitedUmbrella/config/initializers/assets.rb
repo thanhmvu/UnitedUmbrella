@@ -12,13 +12,6 @@ Rails.application.config.assets.precompile += %w(
 	bootstrap.min.css
 	welcome_page.css 
 	util.js
-	bootstrap.min.js
-	jquery.min.js
-	jquery.scrollex.min.js
-	jquery.scrolly.min.js
-	skel.min.js
-	util.min.js
-	welcome_page.js
 	public_lea.js
 	d3.js
 )
