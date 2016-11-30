@@ -74,29 +74,9 @@
 					</div>
 				</form>
 
-
-				<!-- COMPARE TWO PUBLIC SCHOOLS BASED ON LEA -->
-				<h4>View two schools</h4>
-				<form method="get" action="/public_lea/viewschools">
-					<div class="row uniform">
-						<div class="6u 12u$(xsmall)">
-							<input type="text" name="id1" value="" placeholder="AUN of first school" />
-						</div>
-						<div class="6u$ 12u$(xsmall)">
-							<input type="email" name="id2" value="" placeholder="AUN of second school" />
-						</div>
-						<br>
-						<ul class="actions">
-							<li>
-								<button class="button special"> Submit </button>
-							</li>			
-						</ul>
-					</div>
-				</form>
-
 				<!-- COMPARE MULTIPLE PUBLIC SCHOOLS BASED ON LEA -->
 				<h4>View multiple schools </h4>
-				<div id="multiple_school_boxes" class="row uniform">
+				<div class="row uniform">
 					<div class="4u$">
 						<div class="select-wrapper">
 							<select name="demo-category" id="demo-category">
@@ -109,12 +89,21 @@
 							</select>
 						</div>
 					</div>
-					<ul class="actions">
-						<li>
-							<button class="button special" id="submit_multiple"> Submit </button>
-						</li>
-					</ul>
 				</div>
+
+
+				<form method="get" action="/public_lea/viewschools">
+					<div class="row uniform" id="multiple_schools_input">						
+					</div>
+					<br>
+					<div class="row uniform">
+						<ul class="actions">
+							<li>
+								<button class="button special" id="submit_multiple"> Submit </button>
+							</li>			
+						</ul>
+					</div>
+				</form>
 			</div>
 		</section>
 
@@ -131,4 +120,5 @@
 			<li>&copy; Andrew Ortiz, Huy Nguyen, Michael Teddick, Thanh Vu</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 		</ul>
 	</footer>
+
 </div>

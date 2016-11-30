@@ -101,14 +101,62 @@
 
 
 $(document).ready( function () {
-	console.log("ready");
+
+	// trigger all form submissions
 	$('.button').on('click', function() {
 		var form = $(this).parents('form:first');
 		form.submit();
 	});
+
 	$('#submit_multiple').attr('disabled', true);
+
+	// add the corresponding number of input fields
+	// enable submit button
 	$('#demo-category').on('change', function () {
-		var numberOfSchools = $(this).val();
-		console.log(numberOfSchools);
+		$('#multiple_schools_input').empty();
+		if ( $(this).val() == "" ) {
+			$('#submit_multiple').attr('disabled', true);
+			return;
+		}
+		var numberOfBoxes = $(this).val();
+		$('#submit_multiple').attr('disabled', false);	
+		for ( var i = 1 ; i <= numberOfBoxes ; i++ ) {
+			createInputBox( i, numberOfBoxes );
+		}
+	});
+});
+
+
+
+function createInputBox( id, numberOfBoxes ) {
+	var inputBox;
+	if ( numberOfBoxes % 2 == 0 ) {
+		inputBox = $(" \
+			<div class='6u 12u$(xsmall)'> \
+				<input type='text' name='aun" + id + "' value='' placeholder='AUN of school " + id + "' /> \
+			</div>'").appendTo('#multiple_schools_input');
+	}
+	else {
+		inputBox = $(" \
+			<div class='4u 12u$(xsmall)'> \
+				<input type='text' name='aun" + id + "' value='' placeholder='AUN of school " + id + "' /> \
+			</div>'").appendTo('#multiple_schools_input');
+	}
+}
+
+$(window).on('load', function () {
+	$('#submit_multiple').attr('disabled', true);
+	$('#demo-category').val('');
+	$('#demo-category').on('change', function () {
+		$('#multiple_schools_input').empty();
+		if ( $(this).val() == "" ) {
+			$('#submit_multiple').attr('disabled', true);
+			return;
+		}
+		var numberOfBoxes = $(this).val();
+		$('#submit_multiple').attr('disabled', false);	
+		for ( var i = 1 ; i <= numberOfBoxes ; i++ ) {
+			createInputBox( i, numberOfBoxes );
+		}
 	});
 });
