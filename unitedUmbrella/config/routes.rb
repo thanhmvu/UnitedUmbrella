@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   	get 'main/welcome'
   	get 'main/elements'
     get 'main/view_public_by_aun'
+    get 'public_lea/viewschools'
     
     # ======================== PUBLIC SCHOOL DATABASE ======================== #
     resources :public_lea, :only => [:index, :show] # make the request RESTful
