@@ -19,3 +19,4 @@
 //= require skel.min
 //= require util
 //= require welcome_page
+//= require d3

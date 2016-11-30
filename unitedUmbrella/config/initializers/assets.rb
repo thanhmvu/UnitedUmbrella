@@ -11,7 +11,6 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( 
 	bootstrap.min.css
 	welcome_page.css 
-	font-awesome.min.css
 	util.js
 	bootstrap.min.js
 	jquery.min.js
@@ -20,4 +19,6 @@ Rails.application.config.assets.precompile += %w(
 	skel.min.js
 	util.min.js
 	welcome_page.js
+	public_lea.js
+	d3.js
 )
