@@ -1,18 +1,20 @@
-<h1>PublicLea#show</h1>
-<p>Find me in app/views/public_lea/show.html.erb</p>
+<% unless @invalid_auns.empty? %>
+<%= show_error_message("The following AUNs do not exist:\n" + @invalid_auns.join("\n")) %>
+<% else %>
 <p>
-<table>
-<tr>
-<th>aun</th>
-<th>lea_name</th>
-<th>lea_type</th>
-<th>county</th>
-</tr>
-<tr>
-<td><%= @lea.aun  %></td>
-<td><%= @lea.lea_name %><br></td>
-<td><%= @lea.lea_type %><br></td>
-<td><%= @lea.county %><br></td>
-</tr>
-</table>
+	<table>
+		<tr>
+			<th>aun</th>
+			<th>lea_name</th>
+			<th>lea_type</th>
+			<th>county</th>
+		</tr>
+		<tr>
+			<td><%= @lea.aun  %></td>
+			<td><%= @lea.lea_name %><br></td>
+			<td><%= @lea.lea_type %><br></td>
+			<td><%= @lea.county %><br></td>
+		</tr>
+	</table>
 </p>
+<% end %>
