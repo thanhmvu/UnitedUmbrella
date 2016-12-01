@@ -103,6 +103,7 @@
 $(document).ready( function() {
 	ready();
 });
+
 $(document).on('turbolinks:load', function() {
 	ready();
 });
@@ -149,7 +150,3 @@ function createInputBox( id, numberOfBoxes ) {
 	}
 }
 
-// $(window).on('load', function () {
-// 	$('#submit_multiple').attr('disabled', true);
-// 	$('#demo-category').val('');
-// });
