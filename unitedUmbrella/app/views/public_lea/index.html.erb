@@ -1,46 +1,7 @@
-<<<<<<< HEAD
-<h1>PublicLea#index</h1>
-<p>Find me in app/views/public_lea/index.html.erb</p>
-<p>
-<div id="graph1">
-</div>
-<%= javascript_include_tag('public_lea.js') %>
-<script type="text/javascript">
- var lea_type = ["CS","SD","IU","OCCCTC","SJCI","COMCTC","STATE","SPJ"];
- lea_type[0] = <%= @lea_type["CS"] %>;
- lea_type[1] = <%= @lea_type["SD"] %>;
- lea_type[2] = <%= @lea_type["IU"] %>;
- lea_type[3] = <%= @lea_type["OCCCTC"] %>;
- lea_type[4] = <%= @lea_type["SJCI"] %>;
- lea_type[5] = <%= @lea_type["COMCTC"] %>;
- lea_type[6] = <%= @lea_type["STATE"] %>;
- lea_type[7] = <%= @lea_type["SPJ"] %>;
- render_graph(lea_type);
-</script>
-<table>
-<tr>
-<th>aun</th>
-<th>lea_name</th>
-<th>lea_type</th>
-<th>county</th>
-</tr>
-<% @leas.each do | l | %>
-<tr>
-<td><%= l.aun  %></td>
-<td><%= l.lea_name %><br></td>
-<td><%= l.lea_type %><br></td>
-<td><%= l.county %><br></td>
-</tr>
-<% end %>
-</table>
-</p>
-=======
 <section class="wrapper style5">
 	<div class="inner">
+		<div id="graph1"></div>
 		<p>
-			<div id="graph1">
-			</div>
-			<%= javascript_include_tag('public_lea.js') %>
 			<table>
 				<tr>
 					<th>aun</th>
@@ -60,4 +21,17 @@
 		</p>
 	</div>
 </section>
->>>>>>> 555b450e3cb7e3a335c0911c03f9b75d39bf5d08
+
+
+<script type="text/javascript">
+ var lea_type = ["CS","SD","IU","OCCCTC","SJCI","COMCTC","STATE","SPJ"];
+ lea_type[0] = <%= @lea_type["CS"] %>;
+ lea_type[1] = <%= @lea_type["SD"] %>;
+ lea_type[2] = <%= @lea_type["IU"] %>;
+ lea_type[3] = <%= @lea_type["OCCCTC"] %>;
+ lea_type[4] = <%= @lea_type["SJCI"] %>;
+ lea_type[5] = <%= @lea_type["COMCTC"] %>;
+ lea_type[6] = <%= @lea_type["STATE"] %>;
+ lea_type[7] = <%= @lea_type["SPJ"] %>;
+ render_graph(lea_type);
+</script>
