@@ -10,7 +10,7 @@ function render_graph(lea_type) {
 	const X_OFFSET = 50, Y_OFFSET = 50, COLUMN_WIDTH = 50, COLUMN_INTERVAL = 10, COLUMN_HEIGHT = 5;
 	const 
 		WIDTH = X_OFFSET + (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
-	 	HEIGHT = 3150;
+	 	HEIGHT = 2650;
 	 console.log("height is: " + HEIGHT);
 
 	// scale the x-axis
@@ -40,9 +40,22 @@ function render_graph(lea_type) {
 		.attr("transform","translate(0," + (HEIGHT-Y_OFFSET+10) + ")")
 		.call(xAxis);
 
-	svg.selectAll("text")
+	svg.append("text")
+	        .attr("x", (WIDTH / 2))             
+        	.attr("y", 30)
+	        .attr("text-anchor", "middle")  
+	        .style("font-size", "32px")   
+		.style('fill', 'black')
+	        .text("Number of Schools by LEA_TYPE");
+
+	svg.append("text")
 		.data(data)
 		.enter().append("text")
+		.attr("x", 30)
+		.attr("y", 50 )
+		.style('fill', 'black')
+	 	.text(String);
+
 }
 
 // create an array of numbers of the form x = start + i*interval
