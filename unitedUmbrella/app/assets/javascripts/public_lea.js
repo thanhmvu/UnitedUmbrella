@@ -7,11 +7,14 @@ function render_graph(lea_type) {
 	console.log(data);
 
 	// constants that determine the sizes of all the elements
-	const X_OFFSET = 50, Y_OFFSET = 50, COLUMN_WIDTH = 50, COLUMN_INTERVAL = 10, COLUMN_HEIGHT = 5;
+	const Y_OFFSET = 50, COLUMN_WIDTH = 50, COLUMN_INTERVAL = 10, COLUMN_HEIGHT = 5;
 	const 
-		WIDTH = X_OFFSET + (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
-	 	HEIGHT = 2650;
-	 console.log("height is: " + HEIGHT);
+		// WIDTH = X_OFFSET + (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
+		WIDTH = $('#graph1').width(),
+	 	HEIGHT = 2650,
+	 	GRAPH_WIDTH = (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
+	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2;
+	 console.log(WIDTH + " " + GRAPH_WIDTH + " " + X_OFFSET);
 
 	// scale the x-axis
 	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,labels.length]);
@@ -28,6 +31,7 @@ function render_graph(lea_type) {
 	svg.selectAll("rect")
 		.data(data)
 		.enter().append("rect")
+		.attr("class", ".bartext")
 		.attr("height", function(d,i){return d*COLUMN_HEIGHT;})
 		.attr("width", COLUMN_WIDTH)
 		.attr("fill",function(d,i) {return rainbow(i);})
@@ -40,22 +44,31 @@ function render_graph(lea_type) {
 		.attr("transform","translate(0," + (HEIGHT-Y_OFFSET+10) + ")")
 		.call(xAxis);
 
+	// graph title
 	svg.append("text")
-	        .attr("x", (WIDTH / 2))             
-        	.attr("y", 30)
-	        .attr("text-anchor", "middle")  
-	        .style("font-size", "32px")   
+		.attr("x", (WIDTH / 2))             
+		.attr("y", 30)
+		.attr("text-anchor", "middle")  
+		.style("font-size", "32px")   
 		.style('fill', 'black')
-	        .text("Number of Schools by LEA_TYPE");
+		.text("Number of Schools by LEA_TYPE");
 
-	svg.append("text")
-		.data(data)
+	// add labels
+	svg.selectAll("text.labels").
+		data(data)
 		.enter().append("text")
-		.attr("x", 30)
-		.attr("y", 50 )
+		.attr("x", function(d,i){
+			var offset = 0;
+			if ( d > 99 ) offset = COLUMN_WIDTH/8;
+			else if ( d > 9 ) offset = COLUMN_WIDTH/4;
+			else offset = COLUMN_WIDTH/2;
+			return offset + X_OFFSET+i*(COLUMN_WIDTH + COLUMN_INTERVAL)
+		;})
+		.attr("y", function(d,i){return HEIGHT-Y_OFFSET-(d*COLUMN_HEIGHT);} )
+		.attr("dx", "0.3em")
+		.attr("dy", -5)
 		.style('fill', 'black')
 	 	.text(String);
-
 }
 
 // create an array of numbers of the form x = start + i*interval
