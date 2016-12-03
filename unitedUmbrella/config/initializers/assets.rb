@@ -12,6 +12,5 @@ Rails.application.config.assets.precompile += %w(
 	bootstrap.min.css
 	welcome_page.css 
 	util.js
-	public_lea.js
 	d3.js
 )

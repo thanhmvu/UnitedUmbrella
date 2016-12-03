@@ -9,6 +9,7 @@
 </section>
 
 <script type="text/javascript">
+// data_map maps a school name to an array of pairs (academic_year, total_enrollment)
 function draw_graph(data_map) {
 
 	// convert input data into arrays
@@ -108,15 +109,6 @@ function draw_graph(data_map) {
 		.style("font-size", "24px")   
 		.style('fill', 'black')
 		.text("School enrollments");
-}
-
-
-function getEnrollment( data_map, school_name, academic_year ) {
-	data = data_map[school_name];
-	for ( var i = 0 ; i < data.length ; i++ ) {
-		if ( data[0] == academic_year ) return data[1];
-	}
-	return -1;
 }
 
 
