@@ -1,0 +1,28 @@
+<% unless @invalid_ids.empty? %>
+	<%= show_error_message("The following school ids do not exist:\n" + @invalid_ids.join("\n")) %>
+<% else %>
+	<div id="graph"></div>
+<% end %>
+
+
+<script type="text/javascript">
+var data_map = {};
+<% @all_data.each do |key,value| %>
+	var school_name = '<%= raw key %>';
+	data_map[school_name] = []
+	<% value.each do |data| %>
+		data_map[school_name].push([
+			<%= raw data.academic_year_end %>, 
+			<%= data.total %> 
+		]);
+	<% end %>
+<% end %>
+console.log(data_map);
+</script>
+
+
+<script type="javascript">
+function draw_graph() {
+
+}
+</script>

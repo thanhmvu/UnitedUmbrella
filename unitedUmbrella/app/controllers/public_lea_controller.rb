@@ -6,7 +6,7 @@ class PublicLeaController < ApplicationController
 
   def show
       @aun = params[:id]
-      @lea = PublicLea.find_by_aun(@aun)
+      @lea = PublicLea.find_by(aun: @aun)
       @invalid_auns = Array.new
       if @lea.nil?
         @invalid_auns.push(@aun)
@@ -16,8 +16,8 @@ class PublicLeaController < ApplicationController
   def viewschools
   	@leas = Array.new
     @invalid_auns = Array.new
-  	request.query_parameters.each do |key,value|
-      school = PublicLea.find_by_aun(value) 
+  	request.query_parameters.values.each do |value|
+      school = PublicLea.find_by(aun: value) 
       if school.nil?
         @invalid_auns.push(value)
       else
