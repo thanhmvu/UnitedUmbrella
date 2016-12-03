@@ -1,7 +1,7 @@
 class PublicLeaController < ApplicationController
   def index
       @leas = PublicLea.all.sort
-      @lea_type = PublicLea.order("lea_type").group("lea_type").count
+      @lea_map = PublicLea.order("lea_type").group("lea_type").count
   end
 
   def show

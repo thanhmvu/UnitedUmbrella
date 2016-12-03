@@ -1,10 +1,6 @@
-function render_graph(lea_type) {
+function render_graph(data, labels) {
 
-	// the input data
-	var data = lea_type;
-	var labels = ["CS","SD","IU","OCCCTC","SJCI","COMCTC","STATE","SPJ"];
 	var maxData = Math.max.apply( null, data );
-	console.log(data);
 
 	// constants that determine the sizes of all the elements
 	const Y_OFFSET = 50, COLUMN_WIDTH = 50, COLUMN_INTERVAL = 10, COLUMN_HEIGHT = 5;
@@ -14,7 +10,6 @@ function render_graph(lea_type) {
 	 	HEIGHT = 2650,
 	 	GRAPH_WIDTH = (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
 	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2;
-	 console.log(WIDTH + " " + GRAPH_WIDTH + " " + X_OFFSET);
 
 	// scale the x-axis
 	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,labels.length]);
