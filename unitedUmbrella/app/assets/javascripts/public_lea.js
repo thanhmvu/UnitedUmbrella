@@ -44,7 +44,7 @@ function render_graph(data, labels) {
 		.attr("x", (WIDTH / 2))             
 		.attr("y", Y_OFFSET)
 		.attr("text-anchor", "middle")  
-		.style("font-size", "32px")   
+		.style("font-size", "24px")   
 		.style('fill', 'black')
 		.text("Number of Schools by LEA_TYPE");
 
