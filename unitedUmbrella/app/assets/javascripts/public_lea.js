@@ -3,11 +3,11 @@ function render_graph(data, labels) {
 	var maxData = Math.max.apply( null, data );
 
 	// constants that determine the sizes of all the elements
-	const Y_OFFSET = 50, COLUMN_WIDTH = 50, COLUMN_INTERVAL = 10, COLUMN_HEIGHT = 5;
+	const Y_OFFSET = 50, COLUMN_WIDTH = 50, COLUMN_INTERVAL = 10, COLUMN_HEIGHT = 1;
 	const 
 		// WIDTH = X_OFFSET + (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
 		WIDTH = $('#graph1').width(),
-	 	HEIGHT = 2650,
+	 	HEIGHT = COLUMN_HEIGHT * maxData + Y_OFFSET*3;
 	 	GRAPH_WIDTH = (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
 	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2;
 
@@ -31,7 +31,7 @@ function render_graph(data, labels) {
 		.attr("width", COLUMN_WIDTH)
 		.attr("fill",function(d,i) {return rainbow(i);})
 		.attr("x", function(d,i){return X_OFFSET+i*(COLUMN_WIDTH + COLUMN_INTERVAL);})
-		.attr("y",function(d,i){return HEIGHT-Y_OFFSET-(d*COLUMN_HEIGHT);});
+		.attr("y",function(d,i){return HEIGHT - Y_OFFSET -(d*COLUMN_HEIGHT);});
 
 	// draw the x-axis
 	svg.append("g")
@@ -42,7 +42,7 @@ function render_graph(data, labels) {
 	// graph title
 	svg.append("text")
 		.attr("x", (WIDTH / 2))             
-		.attr("y", 30)
+		.attr("y", Y_OFFSET)
 		.attr("text-anchor", "middle")  
 		.style("font-size", "32px")   
 		.style('fill', 'black')
