@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     
     
     # ======================== PRIVATE SCHOOL DATABASE ======================== #
+    resources :private_schools_elementary_enrollment, :only => [:index, :show]
     
     
     # ======================== SCHOOL ASSESSMENT DATABASE ======================== #
