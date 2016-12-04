@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'public_school_gender_enrollment/index'
+
+  get 'public_school_gender_enrollment/show'
+
+  get 'public_school_gender_enrollment/compare'
+
     # ======================== MAIN ======================== #
   	root 'main#welcome'
   	get 'main/welcome'
