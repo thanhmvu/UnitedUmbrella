@@ -7,10 +7,12 @@ class PublicLeaController < ApplicationController
   def show
       @aun = params[:id]
       @lea = PublicLea.find_by(aun: @aun)
+      @results = SchoolAssessmentRecord.find_by(aun: @aun)
       @invalid_auns = Array.new
       if @lea.nil?
         @invalid_auns.push(@aun)
       end
+	puts @lea
   end
 
   def viewschools
