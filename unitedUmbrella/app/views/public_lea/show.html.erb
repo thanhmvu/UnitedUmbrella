@@ -26,10 +26,10 @@
 
 <script>
     var dataset = [
-	{label: 'Below Basic',count: <%= @lea.pct_below_basic%> }
-	{label: 'Basic',count: <%= @lea.pct_basic%> }
-	{label: 'Proficient',count: <%= @lea.pct_proficient %> }
-	{label: 'Advanced',count: <%= @lea.pct.advanced %> }
+	{label: 'Below Basic',count: <%= @results.pct_below_basic%> }
+	{label: 'Basic',count: <%= @results.pct_basic%> }
+	{label: 'Proficient',count: <%= @results.pct_proficient %> }
+	{label: 'Advanced',count: <%= @results.pct.advanced %> }
 	]
 
     var width = 360;
