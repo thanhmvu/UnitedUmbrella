@@ -1,6 +1,6 @@
-v<section class="wrapper style5">
+<section class="wrapper style5">
 	<div class="inner">
-		<div id="graph1"></div>
+		<div id="graph"></div>
 		<p>
 			<table>
 				<tr>
@@ -31,7 +31,7 @@ function draw_graph(data, labels) {
 	const Y_OFFSET = 50, COLUMN_WIDTH = 50, COLUMN_INTERVAL = 10, COLUMN_HEIGHT = 1;
 	const 
 		// WIDTH = X_OFFSET + (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
-		WIDTH = $('#graph1').width(),
+		WIDTH = $('#graph').width(),
 	 	HEIGHT = COLUMN_HEIGHT * maxData + Y_OFFSET*3;
 	 	GRAPH_WIDTH = (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
 	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2;
@@ -45,7 +45,7 @@ function draw_graph(data, labels) {
 	var xAxis = d3.axisBottom(x);
 
 	// create svg
-	var svg = d3.select("#graph1").append("svg").attr("height", HEIGHT).attr("width", WIDTH);
+	var svg = d3.select("#graph").append("svg").attr("height", HEIGHT).attr("width", WIDTH);
 
 	// draw the bar chart
 	svg.selectAll("rect")
@@ -108,7 +108,6 @@ function labelEndpointsPosition( xOffset, columnWidth, columnInterval, numberOfC
 	var end = xOffset + (columnWidth + columnInterval) * numberOfColumns - columnInterval - columnWidth / 2;
 	return [start, end]
 }
-
 </script>
 
 
@@ -118,44 +117,4 @@ function labelEndpointsPosition( xOffset, columnWidth, columnInterval, numberOfC
  draw_graph(lea_data, lea_labels);
 </script>
 
-//Contains code used to draw pie chart based on asessment data. Found on GitHub
-<div id="piechart"></div>
-    <script src="d3.v4.min.js"></script>
-    <script>
-      (function(d3) {
-        'use strict';
 
-        var dataset = [ //Example dataset
-          { label: 'Abulia', count: 10 },
-          { label: 'Betelgeuse', count: 20 },
-          { label: 'Cantaloupe', count: 30 },
-          { label: 'Dijkstra', count: 40 }
-        ];
-
-        var width = 360;
-        var height = 360;
-        var radius = Math.min(width, height) / 2;
-        var color = d3.scaleOrdinal(d3.schemeCategory20b);
-        var svg = d3.select('#chart')
-          .append('svg')
-          .attr('width', width)
-          .attr('height', height)
-          .append('g')
-          .attr('transform', 'translate(' + (width / 2) +
-            ',' + (height / 2) + ')');
-        var arc = d3.arc()
-          .innerRadius(0)
-          .outerRadius(radius);
-        var pie = d3.pie()
-          .value(function(d) { return d.count; })
-          .sort(null);
-        var path = svg.selectAll('path')
-          .data(pie(dataset))
-          .enter()
-          .append('path')
-          .attr('d', arc)
-          .attr('fill', function(d) {
-            return color(d.data.label);
-          });
-      })(window.d3);
-    </script>
