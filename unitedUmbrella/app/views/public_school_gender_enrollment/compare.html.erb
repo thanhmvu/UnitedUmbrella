@@ -1,2 +1,227 @@
-<h1>PublicSchoolGenderEnrollment#compare</h1>
-<p>Find me in app/views/public_school_gender_enrollment/compare.html.erb</p>
+<section class="wrapper style5">
+	<div class="inner">
+		<% unless @invalid_ids.empty? %>
+			<%= show_error_message("The following school ids do not exist:\n" + @invalid_ids.join("\n")) %>
+		<% else %>
+			<div id="graph"></div>
+		<% end %>
+	</div>
+</section>
+
+<script type="text/javascript">
+// data_map maps a school name to an array of pairs (academic_year, total_enrollment)
+function draw_graph2(data_map) {
+
+	// convert input data into arrays
+	var school_names = Object.keys(data_map);
+
+	// constants that determine the sizes of all the elements
+	const WIDTH = $('#graph').width(), HEIGHT = 400, Y_OFFSET = 100, X_OFFSET = 10;
+
+	// create the canvas
+	var svg = d3.select("#graph").append("svg").attr("height", HEIGHT).attr("width", WIDTH);
+	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,school_names.length]);
+
+	for ( var school_index = 0 ; school_index < school_names.length ; school_index ++ ) {
+		var academic_years = [];
+		var school_enrollments = [];
+		for ( var i = 0, data = data_map[school_names[school_index]] ; i < data.length ; i++ ) {
+			academic_years.push( data[i][0] );
+			school_enrollments.push( data[i][1] );
+		}
+		// sort the years
+		academic_years.sort( function(a,b){ return a-b } );	
+
+		// get the boundary variables
+		var maxEnrollment = Math.max.apply(null, school_enrollments);
+		var minEnrollment = Math.min.apply(null, school_enrollments);
+		var maxYear = academic_years[academic_years.length - 1];
+		var minYear = academic_years[0];
+		console.log("min e: " + minEnrollment);
+		console.log("max e: " + maxEnrollment);
+
+		// construct the axis
+		var y = d3.scaleLinear()
+			.domain([0, int_ceiling(maxEnrollment)])
+			.range([(HEIGHT-Y_OFFSET), 0]);
+		var yAxis = d3.axisLeft(y);
+		var x = d3.scaleLinear().domain([minYear, maxYear]).range([0,WIDTH*3/4]);
+		var xAxis = d3.axisBottom(x);
+
+
+		// declare the line graph
+		var line = d3.line(school_enrollments)
+			.x( function(d,i){ return X_OFFSET + x(academic_years[i]); } )
+			.y( function(d,i){ return y(d);} )
+			.curve(d3.curveNatural);
+
+		// draw the line graph
+		var chartGroup = svg.append("g").attr("transform", "translate(50,50)" );
+		chartGroup.append("path")
+			.attr("fill", "none")
+			.attr("stroke", rainbow(school_index))
+			.attr("d", line(school_enrollments));
+
+		// add circles to the locations of the data points
+		chartGroup.selectAll("circle")
+			.data(school_enrollments)
+			.enter().append("circle")
+			.attr("cx", function(d,i){ return X_OFFSET + x(academic_years[i]); })
+			.attr("cy", function(d,i){ return y(d); })
+			.attr("r", "2");
+	}
+	
+	// add x-axis
+	chartGroup.append("g")
+		.attr("class", "axis x")
+		.attr("transform", "translate(" + X_OFFSET + ", " + y(0) + ")")
+		.call(xAxis);
+	console.log("bottom " + y(0));
+
+	// add y-axis
+	chartGroup.append("g")
+		.attr("class", "axis y")
+		.attr("transform", "translate(" + X_OFFSET + ",0)")
+		.call(yAxis);
+
+	// label x-axis
+	svg.append("text")
+	    .attr("class", "x label")
+	    .attr("text-anchor", "end")
+	    .attr("x", x(maxYear+1))
+	    .attr("y", HEIGHT - 10)
+	    .text("Year");
+	
+	// label y-axis
+	svg.append("text")
+	    .attr("class", "y label")
+	    .attr("text-anchor", "end")
+	    .attr("y", 6)
+	    .attr("dy", ".75em")
+	    .attr("transform", "rotate(-90)")
+	    .text("Total enrollment");
+
+   	// graph title
+	svg.append("text")
+		.attr("x", (WIDTH / 2))             
+		.attr("y", Y_OFFSET/4)
+		.attr("text-anchor", "middle")  
+		.style("font-size", "24px")   
+		.style('fill', 'black')
+		.text("School enrollments");
+}
+
+
+function int_ceiling( x ) {
+	if ( parseInt(x, 10) % 100 == 0 ) return x;
+	return 100 * ( parseInt(x/100,10) + 1 );
+}
+
+// //================================================= TESTING
+function draw_graph(data_map) {
+	// convert input data into arrays
+	// var school_names = Object.keys(data_map);
+	// var school_names = ["A","B"];
+	// var academic_years = {
+	//     "A" : [1,2,3],
+	//     "B" : [1,2,3]
+	// };
+	// var total_enrollment = {
+	//     "A" : [10,20,30],
+	//     "B" : [20,30,40]
+	// };
+
+	var data = [{
+			"schoolA": 50,
+			"schoolB": 70
+		},
+		{
+			"schoolA": 100,
+			"schoolB": 70
+		}
+	];
+	var school_names = ["schoolA","schoolB"];
+	data.forEach(function(d) { // each year
+	    d.schools = school_names.map(function(name) { return {school: name, enrollment: +d[name]}; });
+	});
+
+	// constants that determine the sizes of all the elements
+	var maxData = 100;//data_map.max_by{|k,v| v}[1] // find the max value to scale // Math.max.apply( null, data )
+	var numMaxYears = 3;
+	// for(var school in academic_years){
+	// 	if(academic_years[school_index].length > numMaxYears){ numMaxYears = academic_years[school_index].length; }
+	// }
+
+	// const Y_OFFSET = 200, COLUMN_WIDTH = 50, COL_INTERVAL = 20, SUBCOL_INTERVAL = 10, BAR_HEIGHT_SCALE = 1;
+	const 
+		Y_OFFSET = 200, COLUMN_HEIGHT_SCALE = 2,
+	 	HEIGHT = (COLUMN_HEIGHT_SCALE * maxData) + (Y_OFFSET * 3),
+
+		WIDTH = $('#graph').width(),
+	 	COLUMN_WIDTH = 50, COLUMN_INTERVAL = 20, SUBCOLUMN_INTERVAL = 10,
+	 	GRAPH_WIDTH = ((COLUMN_WIDTH + COLUMN_INTERVAL) * school_names.length) * numMaxYears,
+	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2; // put the graph at the center
+
+	// create svg
+	var svg = d3.select("#graph").append("svg").attr("height", HEIGHT).attr("width", WIDTH); //attr("height", "100%")
+	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,school_names.length]);
+
+	var x0 = [20,200];
+	var x1 = d3.scaleOrdinal();
+	var y = d3.scaleLinear().range([HEIGHT, 0]);
+	// draw the bar chart
+	var year = svg.selectAll(".year")
+		.data(data)
+		.enter().append("g")
+		.attr("class","year")
+		.attr("transform", function(d,i) { 
+			console.log(d);
+			return "translate(" + x0[i] + ",0)"; });
+
+	year.selectAll("rect")
+      	.data(function(d) { return d.schools; })
+    	.enter().append("rect")
+      	.attr("width", COLUMN_WIDTH) //x1.rangeBand()
+      	.attr("x", function(d) { return x1(d.school); })
+      	.attr("y", function(d) { return y(d.enrollment); })
+      	.attr("height", function(d) { return HEIGHT - y(d.enrollment); })
+      	.style("fill", function(d,i) {return rainbow(i);});
+
+	// console.log(school_names.length);
+	// for ( var school_index = 0 ; school_index < school_names.length ; school_index ++ ) {
+	// 	var school = school_names[school_index];
+	// 	var group_width = (COLUMN_WIDTH + COLUMN_INTERVAL) * school_names.length;
+
+	// 	svg.selectAll("rect")
+	// 		.data([100,200,300]) //total_enrollment[school_index]
+	// 		.enter().append("rect")
+	// 		.attr("class", ".bartext")
+	// 		.attr("height", function(d,i){return d*BAR_HEIGHT_SCALE;})
+	// 		.attr("width", COLUMN_WIDTH)
+	// 		.attr("fill", function(d,i) {return rainbow(i);})
+	// 		.attr("x", function(d,i){return (X_OFFSET + i * group_width + school_index * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL));})
+	// 		.attr("y", function(d,i){return HEIGHT - Y_OFFSET - (d * BAR_HEIGHT_SCALE);});
+	// }
+
+}
+</script>
+
+
+
+<script type="text/javascript">
+// ================================= MAIN SCRIPT ===================================== //
+var data_map = {};
+<% @all_data.each do |key,value| %>
+	var school_name = '<%= raw key %>';
+	data_map[school_name] = []
+	<% value.each do |data| %>
+		data_map[school_name].push([
+			<%= raw data.academic_year_end %>, 
+			<%= data.total %> 
+		]);
+	<% end %>
+<% end %>
+console.log(data_map);
+draw_graph(data_map);
+</script>
+
