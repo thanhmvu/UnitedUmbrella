@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get 'main/view_public_by_aun'
     get 'public_lea/viewschools'
     get 'public_school_enrollment/compare_schools'
+    get 'private_schools_elementary_enrollment/compare_elementary_enrollment'
     
     # ======================== PUBLIC SCHOOL DATABASE ======================== #
     resources :public_lea, :only => [:index, :show] # make the request RESTful
