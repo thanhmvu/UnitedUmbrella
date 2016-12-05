@@ -25,12 +25,12 @@
 </section>
 
 <script>
-    var dataset = [ //Example dataset
-      { label: 'Abulia', count: 10 },
-      { label: 'Betelgeuse', count: 20 },
-      { label: 'Cantaloupe', count: 30 },
-      { label: 'Dijkstra', count: 40 }
-    ];
+    var dataset = [
+	{label: 'Below Basic',count: <%= @lea.pct_below_basic%> }
+	{label: 'Basic',count: <%= @lea.pct_basic%> }
+	{label: 'Proficient',count: <%= @lea.pct_proficient %> }
+	{label: 'Advanced',count: <%= @lea.pct.advanced %> }
+	]
 
     var width = 360;
     var height = 360;
