@@ -3,58 +3,46 @@
 		<% unless @invalid_auns.empty? %>
 		<%= show_error_message("The following AUNs do not exist:\n" + @invalid_auns.join("\n")) %>
 		<% else %>
-		<p>
-			<div id="graph"></div>
-			<table>
-				<tr>
-					<th>aun</th>
-					<th>lea_name</th>
-					<th>lea_type</th>
-					<th>county</th>
-				</tr>
-				<tr>
-					<td><%= @lea.aun  %></td>
-					<td><%= @lea.lea_name %><br></td>
-					<td><%= @lea.lea_type %><br></td>
-					<td><%= @lea.county %><br></td>
-				</tr>
-			</table>
-		</p>
+		<div id="graph"></div>
 		<% end %>
 	</div>
 </section>
 
-<script>
-    var dataset = [
-	{label: 'Below Basic',count: <%= @results.pct_below_basic%> }
-	{label: 'Basic',count: <%= @results.pct_basic%> }
-	{label: 'Proficient',count: <%= @results.pct_proficient %> }
-	{label: 'Advanced',count: <%= @results.pct.advanced %> }
-	]
+<script type="text/javascript">
+	// variables to determine the canvas size
+	var width = 360;
+	var height = 360;
+	var radius = Math.min(width, height) / 2;
+	var color = d3.scaleOrdinal(d3.schemeCategory20b);
+	var svg = d3.select('#graph')
+	  .append('svg')
+	  .attr('width', width)
+	  .attr('height', height)
+	  .append('g')
+	  .attr('transform', 'translate(' + (width / 2) +
+	    ',' + (height / 2) + ')');
+	var arc = d3.arc()
+	  .innerRadius(0)
+	  .outerRadius(radius);
+	var pie = d3.pie()
+	  .value(function(d) { return d.count; })
+	  .sort(null);
 
-    var width = 360;
-    var height = 360;
-    var radius = Math.min(width, height) / 2;
-    var color = d3.scaleOrdinal(d3.schemeCategory20b);
-    var svg = d3.select('#graph')
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .append('g')
-      .attr('transform', 'translate(' + (width / 2) +
-        ',' + (height / 2) + ')');
-    var arc = d3.arc()
-      .innerRadius(0)
-      .outerRadius(radius);
-    var pie = d3.pie()
-      .value(function(d) { return d.count; })
-      .sort(null);
-    var path = svg.selectAll('path')
-      .data(pie(dataset))
-      .enter()
-      .append('path')
-      .attr('d', arc)
-      .attr('fill', function(d) {
-        return color(d.data.label);
-      });
+	// loop through all School tuples
+	<% @schools.each do |school| %>
+	    var dataset = [
+		{label: 'Below Basic',count: <%= school.pct_below_basic%> },
+		{label: 'Basic',count: <%= school.pct_basic%> },
+		{label: 'Proficient',count: <%= school.pct_proficient %> },
+		{label: 'Advanced',count: <%= school.pct_advanced %> }
+		]
+	    var path = svg.selectAll('path')
+	      .data(pie(dataset))
+	      .enter()
+	      .append('path')
+	      .attr('d', arc)
+	      .attr('fill', function(d) {
+	        return color(d.data.label);
+	      });
+	<% end %> 
 </script>

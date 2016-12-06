@@ -6,14 +6,18 @@ class PublicLeaController < ApplicationController
 
   def show
       @aun = params[:id]
-      @school_id = params[:id]
-      @lea = PublicLea.find_by(aun: @aun)
-      @results = SchoolAssessmentResults.find_by(school_id: @school_id)
       @invalid_auns = Array.new
-      if @lea.nil?
-        @invalid_auns.push(@aun)
+      # find all school_ids with the input aun
+      @school_ids = PublicSchool.where(:aun => @aun).select("school_id")
+      if @school_ids.nil?
+        @invalid_auns.push( @aun )
+      else
+        # get an array of School tuples from the ids
+        @schools = Array.new
+        @school_ids.each do |id|
+          @schools.push( SchoolAssessmentResults.find_by(school_id: id.school_id) )
+        end
       end
-	puts @lea
   end
 
   def viewschools
