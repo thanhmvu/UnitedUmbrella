@@ -120,59 +120,112 @@ function int_ceiling( x ) {
 }
 
 // ================================= Bar Graph ===================================== //
-function draw_bar_graph(data_map) {
+function draw_grouped_bar_graph(data_map) {
+	/*
 	// data_map = {
-	// 	"schoolA": [[2012,100],[2013,150]],
-	// 	"schoolB": [[2012,120],[2013,130]]
+	// 	"ClassA": [[Group1,100],[Group2,150]],
+	// 	"ClassB": [[Group1,120],[Group2,130]]
 	// }
-	// convert input data into arrays
-	var school_names = Object.keys(data_map);
+	*/
 
-	var num_schools = school_names.length;
-	var num_years = data_map[school_names[0]].length; // assume not empty, same num of years every school
-	console.log("num_schools: "+ num_schools+", num_years: "+num_years);
-
-	// constants that determine the sizes of all the elements
-	var maxData = 100;//data_map.max_by{|k,v| v}[1] // find the max value to scale // Math.max.apply( null, data )
-	const 
-		BAR_HEIGHT_SCALE = 1,
-		Y_OFFSET = 200, COLUMN_HEIGHT_SCALE = 2,
-	 	HEIGHT = (COLUMN_HEIGHT_SCALE * maxData) + (Y_OFFSET * 3),
-
-		WIDTH = $('#graph').width(),
-	 	COLUMN_WIDTH = 50, COLUMN_INTERVAL = 20, SUBCOLUMN_INTERVAL = 5,
-	 	GRAPH_WIDTH = ((COLUMN_WIDTH + SUBCOLUMN_INTERVAL) * num_schools + COLUMN_INTERVAL) * num_years,
-	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2; // put the graph at the center
-	
-	var YEAR_WIDTH = num_schools * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL) + COLUMN_INTERVAL;
-
-	// create svg
-	var svg = d3.select("#graph").append("svg").attr("height", HEIGHT).attr("width", WIDTH); //attr("height", "100%")
-	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,num_schools]);
-
+	// convert input data_map into arrays of classes, groups and raw data
+	var classes = Object.keys(data_map);
+	// assume data_map and class are not empty. each class have the same groups
+	var groups = data_map[classes[0]].map(function(v){return v[0];}).sort(); 
+	console.log("classes.length: "+ classes.length+", groups.length: "+groups.length);
+	console.log(classes);
+	console.log(groups);
+	// convert input data into an array by concatenating in year-school order
 	var data =[];
-	// concat data in year-school order
-	for (var i = 0; i < num_years; i++){
-		for ( var school_name in data_map ) {
-			data.push(data_map[school_name][i]);
-		}
-	}
+	for (var i = 0; i < groups.length; i++){
+		for ( var aClass in data_map ) {
+			data.push(data_map[aClass][i][1]);}}
 	console.log("data: ");
 	console.log(data);
 
-	// var years = school_names[0].length
+	// constants that determine the sizes of all the elements
+	var maxData = d3.max(data);
+	console.log(maxData);
+	const 
+		BAR_HEIGHT_SCALE = 1,
+		Y_OFFSET = 100, COLUMN_HEIGHT_SCALE = 2,
+	 	HEIGHT = (COLUMN_HEIGHT_SCALE * maxData) + (Y_OFFSET * 3),
+
+		WIDTH = $('#graph').width(),
+	 	COLUMN_WIDTH = 50, COLUMN_INTERVAL = 20, SUBCOLUMN_INTERVAL = 0,
+	 	GROUP_WIDTH = classes.length * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL),
+	 	GRAPH_WIDTH = groups.length * (GROUP_WIDTH + COLUMN_INTERVAL),
+	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2; // put the graph at the center
+	
+
+	// create svg
+	var svg = d3.select("#graph").append("svg").attr("height", HEIGHT).attr("width", WIDTH); //attr("height", "100%")
+	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,classes.length]);
+
+
+	// var years = classes[0].length
 	svg.selectAll("rect")
-		.data(data.map(function(year){ return year[1]; }))
+		.data(data)
 		.enter().append("rect")
 		.attr("height", function(d){return d * BAR_HEIGHT_SCALE;})
 		.attr("width", COLUMN_WIDTH)
-		.attr("fill", function(d,i){return rainbow(i % num_schools);})
+		.attr("fill", function(d,i){return rainbow(i % classes.length);})
 		.attr("x", function(d,i){
-			var year_index = Math.floor(i/num_schools);
-			var school_index = i % num_schools;
-			return (X_OFFSET + year_index * YEAR_WIDTH + school_index * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL));})
+			var group_index = Math.floor(i/classes.length);
+			var school_index = i % classes.length;
+			return (X_OFFSET + group_index * (GROUP_WIDTH + COLUMN_WIDTH) 
+				+ school_index * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL));})
 		.attr("y", function(d,i){return HEIGHT - Y_OFFSET - (d * BAR_HEIGHT_SCALE);});
 
+	// construct the axis
+	var y = d3.scaleLinear()
+		.range([(HEIGHT-Y_OFFSET), 0])
+		.domain([0, maxData]);
+	var yAxis = d3.axisLeft(y);
+
+	var x = d3.scaleBand()
+		.domain(groups)
+		.range([- GROUP_WIDTH/2, GRAPH_WIDTH + COLUMN_INTERVAL])
+		.padding(COLUMN_INTERVAL);
+	var xAxis = d3.axisBottom(x).ticks(5);
+
+	// draw the x-axis
+	svg.append("g")
+		.attr("class","x axis")
+		.attr("transform","translate("+ X_OFFSET +"," + (HEIGHT-Y_OFFSET) + ")")
+		.call(xAxis);
+
+	// add y-axis
+	svg.append("g")
+		.attr("class", "axis y")
+		.attr("transform", "translate("+ (X_OFFSET- GROUP_WIDTH/2) + ",0)")
+		.call(yAxis);
+
+	// // label x-axis
+	// svg.append("text")
+	//     .attr("class", "x label")
+	//     .attr("text-anchor", "end")
+	//     .attr("x", x(maxYear+1))
+	//     .attr("y", HEIGHT - 10)
+	//     .text("Year");
+	
+	// // label y-axis
+	// svg.append("text")
+	//     .attr("class", "y label")
+	//     .attr("text-anchor", "end")
+	//     .attr("y", 6)
+	//     .attr("dy", ".75em")
+	//     .attr("transform", "rotate(-90)")
+	//     .text("Total enrollment");
+
+ //   	// graph title
+	// svg.append("text")
+	// 	.attr("x", (WIDTH / 2))             
+	// 	.attr("y", Y_OFFSET/4)
+	// 	.attr("text-anchor", "middle")  
+	// 	.style("font-size", "24px")   
+	// 	.style('fill', 'black')
+	// 	.text("School enrollments");
 }
 </script>
 
@@ -193,6 +246,6 @@ var data_map = {};
 <% end %>
 console.log(data_map);
 // draw_line_graph(data_map);
-draw_bar_graph(data_map);
+draw_grouped_bar_graph(data_map);
 </script>
 
