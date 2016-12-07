@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   get 'public_school_gender_enrollment/index'
 
   get 'public_school_gender_enrollment/show'
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
     # get 'public_lea/index'
     # get 'public_lea/show'
     resources :public_school_enrollment, :only => [:index, :show]
+    resources :public_school, :only => [:index, :show]
     
     
     # ======================== PRIVATE SCHOOL DATABASE ======================== #

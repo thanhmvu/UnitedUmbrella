@@ -1,0 +1,21 @@
+<h1>Public School</h1>
+<p>This is a list of all public schools in the database</p>
+
+<section class="wrapper style5">
+	<div class="inner">
+		<table>
+			<tr>
+				<th>School ID</th>
+				<th>School Name</th>
+				<th>AUN</th>
+			</tr>
+			<% @schools.each do | l | %>
+			<tr>
+				<td><%= l.school_id  %></td>
+				<td><%= l.school_name %><br></td>
+				<td><%= l.aun %><br></td>
+			</tr>
+			<% end %>
+		</table>
+	</div>
+</section>
