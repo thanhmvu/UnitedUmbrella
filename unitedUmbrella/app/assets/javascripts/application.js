@@ -20,3 +20,4 @@
 //= require util
 //= require welcome_page
 //= require d3
+//= require graph

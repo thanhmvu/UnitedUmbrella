@@ -13,4 +13,5 @@ Rails.application.config.assets.precompile += %w(
 	welcome_page.css 
 	util.js
 	d3.js
+	graph.js
 )
