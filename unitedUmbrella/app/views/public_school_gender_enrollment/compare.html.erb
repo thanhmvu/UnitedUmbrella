@@ -9,8 +9,10 @@
 </section>
 
 <script type="text/javascript">
+
+// ================================= Line Graph ===================================== //
 // data_map maps a school name to an array of pairs (academic_year, total_enrollment)
-function draw_graph2(data_map) {
+function draw_line_graph(data_map) {
 
 	// convert input data into arrays
 	var school_names = Object.keys(data_map);
@@ -117,91 +119,59 @@ function int_ceiling( x ) {
 	return 100 * ( parseInt(x/100,10) + 1 );
 }
 
-// //================================================= TESTING
-function draw_graph(data_map) {
+// ================================= Bar Graph ===================================== //
+function draw_bar_graph(data_map) {
+	// data_map = {
+	// 	"schoolA": [[2012,100],[2013,150]],
+	// 	"schoolB": [[2012,120],[2013,130]]
+	// }
 	// convert input data into arrays
-	// var school_names = Object.keys(data_map);
-	// var school_names = ["A","B"];
-	// var academic_years = {
-	//     "A" : [1,2,3],
-	//     "B" : [1,2,3]
-	// };
-	// var total_enrollment = {
-	//     "A" : [10,20,30],
-	//     "B" : [20,30,40]
-	// };
+	var school_names = Object.keys(data_map);
 
-	var data = [{
-			"schoolA": 50,
-			"schoolB": 70
-		},
-		{
-			"schoolA": 100,
-			"schoolB": 70
-		}
-	];
-	var school_names = ["schoolA","schoolB"];
-	data.forEach(function(d) { // each year
-	    d.schools = school_names.map(function(name) { return {school: name, enrollment: +d[name]}; });
-	});
+	var num_schools = school_names.length;
+	var num_years = data_map[school_names[0]].length; // assume not empty, same num of years every school
+	console.log("num_schools: "+ num_schools+", num_years: "+num_years);
 
 	// constants that determine the sizes of all the elements
 	var maxData = 100;//data_map.max_by{|k,v| v}[1] // find the max value to scale // Math.max.apply( null, data )
-	var numMaxYears = 3;
-	// for(var school in academic_years){
-	// 	if(academic_years[school_index].length > numMaxYears){ numMaxYears = academic_years[school_index].length; }
-	// }
-
-	// const Y_OFFSET = 200, COLUMN_WIDTH = 50, COL_INTERVAL = 20, SUBCOL_INTERVAL = 10, BAR_HEIGHT_SCALE = 1;
 	const 
+		BAR_HEIGHT_SCALE = 1,
 		Y_OFFSET = 200, COLUMN_HEIGHT_SCALE = 2,
 	 	HEIGHT = (COLUMN_HEIGHT_SCALE * maxData) + (Y_OFFSET * 3),
 
 		WIDTH = $('#graph').width(),
-	 	COLUMN_WIDTH = 50, COLUMN_INTERVAL = 20, SUBCOLUMN_INTERVAL = 10,
-	 	GRAPH_WIDTH = ((COLUMN_WIDTH + COLUMN_INTERVAL) * school_names.length) * numMaxYears,
+	 	COLUMN_WIDTH = 50, COLUMN_INTERVAL = 20, SUBCOLUMN_INTERVAL = 5,
+	 	GRAPH_WIDTH = ((COLUMN_WIDTH + SUBCOLUMN_INTERVAL) * num_schools + COLUMN_INTERVAL) * num_years,
 	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2; // put the graph at the center
+	
+	var YEAR_WIDTH = num_schools * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL) + COLUMN_INTERVAL;
 
 	// create svg
 	var svg = d3.select("#graph").append("svg").attr("height", HEIGHT).attr("width", WIDTH); //attr("height", "100%")
-	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,school_names.length]);
+	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,num_schools]);
 
-	var x0 = [20,200];
-	var x1 = d3.scaleOrdinal();
-	var y = d3.scaleLinear().range([HEIGHT, 0]);
-	// draw the bar chart
-	var year = svg.selectAll(".year")
-		.data(data)
-		.enter().append("g")
-		.attr("class","year")
-		.attr("transform", function(d,i) { 
-			console.log(d);
-			return "translate(" + x0[i] + ",0)"; });
+	var data =[];
+	// concat data in year-school order
+	for (var i = 0; i < num_years; i++){
+		for ( var school_name in data_map ) {
+			data.push(data_map[school_name][i]);
+		}
+	}
+	console.log("data: ");
+	console.log(data);
 
-	year.selectAll("rect")
-      	.data(function(d) { return d.schools; })
-    	.enter().append("rect")
-      	.attr("width", COLUMN_WIDTH) //x1.rangeBand()
-      	.attr("x", function(d) { return x1(d.school); })
-      	.attr("y", function(d) { return y(d.enrollment); })
-      	.attr("height", function(d) { return HEIGHT - y(d.enrollment); })
-      	.style("fill", function(d,i) {return rainbow(i);});
-
-	// console.log(school_names.length);
-	// for ( var school_index = 0 ; school_index < school_names.length ; school_index ++ ) {
-	// 	var school = school_names[school_index];
-	// 	var group_width = (COLUMN_WIDTH + COLUMN_INTERVAL) * school_names.length;
-
-	// 	svg.selectAll("rect")
-	// 		.data([100,200,300]) //total_enrollment[school_index]
-	// 		.enter().append("rect")
-	// 		.attr("class", ".bartext")
-	// 		.attr("height", function(d,i){return d*BAR_HEIGHT_SCALE;})
-	// 		.attr("width", COLUMN_WIDTH)
-	// 		.attr("fill", function(d,i) {return rainbow(i);})
-	// 		.attr("x", function(d,i){return (X_OFFSET + i * group_width + school_index * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL));})
-	// 		.attr("y", function(d,i){return HEIGHT - Y_OFFSET - (d * BAR_HEIGHT_SCALE);});
-	// }
+	// var years = school_names[0].length
+	svg.selectAll("rect")
+		.data(data.map(function(year){ return year[1]; }))
+		.enter().append("rect")
+		.attr("height", function(d){return d * BAR_HEIGHT_SCALE;})
+		.attr("width", COLUMN_WIDTH)
+		.attr("fill", function(d,i){return rainbow(i % num_schools);})
+		.attr("x", function(d,i){
+			var year_index = Math.floor(i/num_schools);
+			var school_index = i % num_schools;
+			return (X_OFFSET + year_index * YEAR_WIDTH + school_index * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL));})
+		.attr("y", function(d,i){return HEIGHT - Y_OFFSET - (d * BAR_HEIGHT_SCALE);});
 
 }
 </script>
@@ -222,6 +192,7 @@ var data_map = {};
 	<% end %>
 <% end %>
 console.log(data_map);
-draw_graph(data_map);
+// draw_line_graph(data_map);
+draw_bar_graph(data_map);
 </script>
 
