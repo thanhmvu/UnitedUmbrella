@@ -148,18 +148,24 @@ function draw_grouped_bar_graph(data_map) {
 	console.log(maxData);
 	const 
 		BAR_HEIGHT_SCALE = 1,
-		Y_OFFSET = 100, COLUMN_HEIGHT_SCALE = 2,
+		Y_OFFSET = 0/*100*/, COLUMN_HEIGHT_SCALE = 2,
 	 	HEIGHT = (COLUMN_HEIGHT_SCALE * maxData) + (Y_OFFSET * 3),
 
 		WIDTH = $('#graph').width(),
 	 	COLUMN_WIDTH = 50, COLUMN_INTERVAL = 20, SUBCOLUMN_INTERVAL = 0,
 	 	GROUP_WIDTH = classes.length * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL),
 	 	GRAPH_WIDTH = groups.length * (GROUP_WIDTH + COLUMN_INTERVAL),
-	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2; // put the graph at the center
+	 	X_OFFSET = 0//(WIDTH - GRAPH_WIDTH)/2; // put the graph at the center
 	
+	margin = {top: 100, right: 100, bottom: 100, left: 200};
 
 	// create svg
-	var svg = d3.select("#graph").append("svg").attr("height", HEIGHT).attr("width", WIDTH); //attr("height", "100%")
+	var svg = d3.select("#graph").append("svg")
+      .attr("width", WIDTH + margin.left + margin.right)
+      .attr("height", HEIGHT + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
 	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,classes.length]);
 
 
@@ -173,32 +179,45 @@ function draw_grouped_bar_graph(data_map) {
 		.attr("x", function(d,i){
 			var group_index = Math.floor(i/classes.length);
 			var school_index = i % classes.length;
-			return (X_OFFSET + group_index * (GROUP_WIDTH + COLUMN_WIDTH) 
-				+ school_index * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL));})
+
+			var x = (X_OFFSET + group_index * (GROUP_WIDTH + COLUMN_INTERVAL) 
+				+ school_index * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL));
+			// console.log(x);
+			console.log(group_index,school_index);
+			return x;})
 		.attr("y", function(d,i){return HEIGHT - Y_OFFSET - (d * BAR_HEIGHT_SCALE);});
 
 	// construct the axis
-	var y = d3.scaleLinear()
-		.range([(HEIGHT-Y_OFFSET), 0])
-		.domain([0, maxData]);
-	var yAxis = d3.axisLeft(y);
 
+	console.log("=======");
+	var range = [];
+	for(var i=0; i<groups.length; i++){ 
+		range.push(X_OFFSET + COLUMN_INTERVAL + GROUP_WIDTH/2 + i* GROUP_WIDTH);
+		console.log(X_OFFSET + COLUMN_INTERVAL + GROUP_WIDTH/2 + i* GROUP_WIDTH);
+		// [- GROUP_WIDTH/2, GRAPH_WIDTH + COLUMN_INTERVAL]
+	}
 	var x = d3.scaleBand()
 		.domain(groups)
-		.range([- GROUP_WIDTH/2, GRAPH_WIDTH + COLUMN_INTERVAL])
-		.padding(COLUMN_INTERVAL);
+		.range([0,GRAPH_WIDTH])
+		// .padding(COLUMN_INTERVAL)
+	;
 	var xAxis = d3.axisBottom(x).ticks(5);
 
 	// draw the x-axis
 	svg.append("g")
 		.attr("class","x axis")
-		.attr("transform","translate("+ X_OFFSET +"," + (HEIGHT-Y_OFFSET) + ")")
+		.attr("transform","translate("+ 0 +"," + (HEIGHT-Y_OFFSET) + ")")
 		.call(xAxis);
 
 	// add y-axis
+	var y = d3.scaleLinear()
+		.range([(HEIGHT-Y_OFFSET), 0])
+		.domain([0, maxData]);
+	var yAxis = d3.axisLeft(y);
+
 	svg.append("g")
 		.attr("class", "axis y")
-		.attr("transform", "translate("+ (X_OFFSET- GROUP_WIDTH/2) + ",0)")
+		.attr("transform", "translate("+ 0 + ",0)")
 		.call(yAxis);
 
 	// // label x-axis
