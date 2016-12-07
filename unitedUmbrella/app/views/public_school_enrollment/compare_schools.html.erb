@@ -99,7 +99,7 @@ function draw_graph(data_map) {
 	    .attr("y", 6)
 	    .attr("dy", ".75em")
 	    .attr("transform", "rotate(-90)")
-	    .text("Total enrollment");
+	    .text("Total Enrollment");
 
    	// graph title
 	svg.append("text")
@@ -108,7 +108,27 @@ function draw_graph(data_map) {
 		.attr("text-anchor", "middle")  
 		.style("font-size", "24px")   
 		.style('fill', 'black')
-		.text("School enrollments");
+		.text("Public School Enrollments");
+
+	var legend = svg.selectAll(".legend")
+                .data(school_names.slice().reverse())
+                .enter().append("g")
+                .attr("class","legend")
+                .attr("transform", function(d,i) { return "translate(0," + i * 20 + ")"; });
+
+        legend.append("rect")
+                .attr("x", WIDTH - 18)
+                .attr("width", 18)
+                .attr("height", 18)
+                .style("fill", function(d,i){return rainbow(i % school_names.length);});
+
+        legend.append("text")
+                .attr("x", WIDTH - 24)
+                .attr("y", 9)
+                .attr("dy", ".35em")
+                .style("text-anchor", "end")
+                .text(function(d) { return d; });
+
 }
 
 
