@@ -68,11 +68,11 @@
 			</form>
 
 			<!-- COMPARE MULTIPLE PUBLIC SCHOOLS BASED ON LEA -->
-			<h4>View multiple LEAs </h4>
+			<h4>Compare school enrollments </h4>
 			<div class="row uniform">
 				<div class="4u$">
 					<div class="select-wrapper">
-						<select name="demo-category" id="demo-category">
+						<select name="demo-category" id="select-lea">
 							<option value="">- Select number of schools -</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
@@ -85,14 +85,14 @@
 			</div>
 
 
-			<form method="get" action="/public_lea/viewschools">
-				<div class="row uniform" id="multiple_schools_input">
+			<form method="get" action="/public_school_enrollment/compare_schools">
+				<div class="row uniform" id="multiple_lea_inputs">
 				</div>
 				<br>
 				<div class="row uniform">
 					<ul class="actions">
 						<li>
-							<button class="button special" id="submit_multiple"> Submit </button>
+							<button class="button special" id="submit_multiple_lea"> Submit </button>
 						</li>			
 					</ul>
 				</div>

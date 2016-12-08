@@ -109,7 +109,7 @@ $(document).on('turbolinks:load', function() {
 });
 
 var ready = function() {
-	$('#demo-category').val('');
+	$('#select-lea').val('');
 
 	// trigger all form submissions
 	$('.button').on('click', function() {
@@ -125,37 +125,37 @@ var ready = function() {
 		$(this).parents('form:first').submit();
 	});
 
-	$('#submit_multiple').attr('disabled', true);
+	$('#submit_multiple_lea').attr('disabled', true);
 
 	// add the corresponding number of input fields
 	// enable submit button
-	$('#demo-category').on('change', function () {
-		$('#multiple_schools_input').empty();
+	$('#select-lea').on('change', function () {
+		$('#multiple_lea_inputs').empty();
 		if ( $(this).val() == "" ) {
-			$('#submit_multiple').attr('disabled', true);
+			$('#submit_multiple_lea').attr('disabled', true);
 			return;
 		}
 		var numberOfBoxes = $(this).val();
-		$('#submit_multiple').attr('disabled', false);	
+		$('#submit_multiple_lea').attr('disabled', false);	
 		for ( var i = 1 ; i <= numberOfBoxes ; i++ ) {
-			createInputBox( i, numberOfBoxes );
+			createInputBox( i, numberOfBoxes, "ID" );
 		}
 	});
 }
 
-function createInputBox( id, numberOfBoxes ) {
+function createInputBox( id, numberOfBoxes, typeOfInput ) {
 	var inputBox;
 	if ( numberOfBoxes % 2 == 0 ) {
 		inputBox = $(" \
 			<div class='6u 12u$(xsmall)'> \
-				<input type='text' name='aun" + id + "' value='' placeholder='AUN of school " + id + "' /> \
-			</div>'").appendTo('#multiple_schools_input');
+				<input type='text' name='aun" + id + "' value='' placeholder='" + typeOfInput + " of school " + id + "' /> \
+			</div>'").appendTo('#multiple_lea_inputs');
 	}
 	else {
 		inputBox = $(" \
 			<div class='4u 12u$(xsmall)'> \
-				<input type='text' name='aun" + id + "' value='' placeholder='AUN of school " + id + "' /> \
-			</div>'").appendTo('#multiple_schools_input');
+				<input type='text' name='aun" + id + "' value='' placeholder='" + typeOfInput + " of school " + id + "' /> \
+			</div>'").appendTo('#multiple_lea_inputs');
 	}
 }
 
