@@ -136,7 +136,7 @@ function draw_bar_chart(data_map, div_id, title) {
 	const Y_OFFSET = 50, COLUMN_WIDTH = 50, COLUMN_INTERVAL = 10, COLUMN_HEIGHT = 1;
 	const 
 		// WIDTH = X_OFFSET + (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
-		WIDTH = ('.inner').width(),
+		WIDTH = $('.inner').width(),
 	 	HEIGHT = COLUMN_HEIGHT * maxData + Y_OFFSET*3;
 	 	GRAPH_WIDTH = (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
 	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2;
@@ -214,7 +214,7 @@ function labelEndpointsPosition( xOffset, columnWidth, columnInterval, numberOfC
 	return [start, end]
 }
 
-
+// ************** BAR CHART **************** //
 function draw_grouped_bar_chart(data_map, div_id, title) {
 	// convert input data_map into arrays of classes, groups and raw data
 	var classes = Object.keys(data_map);
@@ -233,18 +233,18 @@ function draw_grouped_bar_chart(data_map, div_id, title) {
 		Y_OFFSET = 0/*100*/,
 	 	HEIGHT = (BAR_HEIGHT_SCALE * maxData) + (Y_OFFSET * 2),
 
-		WIDTH = ('.inner').width(),
+		WIDTH = $('.inner').width(),
 	 	COLUMN_WIDTH = 70, COLUMN_INTERVAL = 30, SUBCOLUMN_INTERVAL = 0,
 	 	X_OFFSET = COLUMN_INTERVAL,
 	 	GROUP_WIDTH = classes.length * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL),
 	 	GRAPH_WIDTH = groups.length * (GROUP_WIDTH + COLUMN_INTERVAL) - COLUMN_INTERVAL + 2 * X_OFFSET;
 	console.log(HEIGHT);
-	var margin = {left: 100, right: 100, top: 100, bottom: 100};
+	var margin = {left: 100, right: 100, top: 50, bottom: 50};
 
 	// add title
-	$('.inner').append("<div id='title'></div>");
+	$('.inner').prepend("<div id='title'></div>");
 	var titleSvg = d3.select('#title').append("svg").attr("width", WIDTH).attr("height", 100);
-	titleSvg.append("text").attr("x", WIDTH/2).attr("y", 50).text(title);
+	titleSvg.append("text").attr("x", WIDTH/2 - 150).attr("y", 50).text(title);
 
 	// create svg
 	var svg = d3.select(div_id).append("svg")
@@ -300,24 +300,26 @@ function draw_grouped_bar_chart(data_map, div_id, title) {
 		.call(yAxis);
 
 	// add labels
-	var legend = svg.selectAll(".legend")
-		.data(classes.slice().reverse())
-		.enter().append("g")
-		.attr("class","legend")
-		.attr("transform", function(d,i) { return "translate(0," + i * 20 + ")"; });
+	$('.inner').append("<div id='legend'></div>");
+	var legendSvg = d3.select('#legend').append("svg").attr("width", WIDTH).attr("height", 60 * classes.length);
+	var legend = legendSvg.selectAll(".legend")
+	            .data(classes.slice().reverse())
+	            .enter().append("g")
+	            .attr("class","legend")
+	            .attr("transform", function(d,i) { return "translate(0," + i * 50 + ")"; });
 
-	legend.append("rect")
-		.attr("x", WIDTH - 300)
-		.attr("width", 18)
-		.attr("height", 18)
-		.style("fill", function(d,i){return rainbow(i % classes.length);});
+    legend.append("rect")
+            .attr("x", WIDTH - 18)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function(d,i){return rainbow(i % classes.length);});
 
-	legend.append("text")
-		.attr("x", WIDTH - 306)
-		.attr("y", 9)
-		.attr("dy", ".35em")
-		.style("text-anchor", "end")
-		.text(function(d) { return d; });
+    legend.append("text")
+            .attr("x", WIDTH - 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function(d) { return d; });
 }
 
 
