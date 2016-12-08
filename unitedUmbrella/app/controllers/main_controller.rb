@@ -1,6 +1,7 @@
 class MainController < ApplicationController
 
-	def welcome		
+	def welcome	
+		@schools = PublicSchool.all.sort_by {|s| s.school_name}	
 	end
 
 	def elements
