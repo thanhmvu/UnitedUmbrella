@@ -1,7 +1,7 @@
 class MainController < ApplicationController
 
 	def welcome	
-		@schools = PublicSchool.all.sort_by {|s| s.school_name}	
+		@leas = PublicLea.all.sort_by {|s| s.lea_name}	
 	end
 
 	def elements

@@ -57,8 +57,8 @@
 						<div class="select-wrapper">
 							<select id="school-dropdown">
 								<option value="">- Select a LEA -</option>
-								<% @schools.each do | s | %>
-								   	<option value="<%= s.aun %> "> <%= s.school_name %> </option>
+								<% @leas.each do | s | %>
+								   	<option value="<%= s.aun %> "> <%= s.lea_name %> </option>
 								<% end %>
 							</select>
 						</div>
