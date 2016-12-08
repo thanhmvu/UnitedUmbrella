@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   	get 'main/welcome'
   	get 'main/elements'
     get 'main/view_public_by_aun'
+    get 'main/view_public_by_lea'
     get 'public_lea/viewschools'
     get 'public_school_enrollment/compare_schools'
     get 'private_schools_elementary_enrollment/compare_elementary_enrollment'

@@ -110,10 +110,19 @@ $(document).on('turbolinks:load', function() {
 
 var ready = function() {
 	$('#demo-category').val('');
+
 	// trigger all form submissions
 	$('.button').on('click', function() {
 		var form = $(this).parents('form:first');
 		form.submit();
+	});
+
+	// select LEA form
+	$('#school-dropdown').on('change', function() {
+		var value = $(this).val();
+		if ( value == "" ) return;
+		$('#input_lea').val(value);
+		$(this).parents('form:first').submit();
 	});
 
 	$('#submit_multiple').attr('disabled', true);
