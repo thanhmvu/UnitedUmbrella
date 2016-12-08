@@ -26,13 +26,16 @@
 
 
 <script type="text/javascript">
-	<% @schools.each do |school| %>
-		var data_map = [
-			{label: 'Below Basic',count: <%= school.pct_below_basic%> },
-			{label: 'Basic',count: <%= school.pct_basic%> },
-			{label: 'Proficient',count: <%= school.pct_proficient %> },
-			{label: 'Advanced',count: <%= school.pct_advanced %> }
-		];
-		draw_pie_chart(data_map, "#graph");
+	<% if @invalid_auns.empty? %>
+		<% @schools.each_with_index do |school,index| %>
+			var data_map = [
+				{label: 'Below Basic',count: <%= school.pct_below_basic%> },
+				{label: 'Basic',count: <%= school.pct_basic%> },
+				{label: 'Proficient',count: <%= school.pct_proficient %> },
+				{label: 'Advanced',count: <%= school.pct_advanced %> }
+			];
+			var name = '<%= @school_names[index].school_name %>';
+			draw_pie_chart(data_map, "#graph", "Assessment of school " + name);
+		<% end %>
 	<% end %>
 </script>

@@ -6,7 +6,7 @@ function draw_line_chart(data_map, div_id, title) {
     var school_names = Object.keys(data_map);
 
     // constants that determine the sizes of all the elements
-    const WIDTH = $(div_id).width(), HEIGHT = 400, Y_OFFSET = 0, X_OFFSET = 10;
+    const WIDTH = ('.inner').width(), HEIGHT = 400, Y_OFFSET = 0, X_OFFSET = 10;
 
     // add title
     $('.inner').append("<div id='title'></div>");
@@ -115,15 +115,18 @@ function int_ceiling( x ) {
 // ************** BAR CHART **************** //
 function draw_bar_chart(data_map, div_id, title) {
 
+	// save all the keys and values into two arrays
 	var labels = Object.keys(data_map);
-	var data = Object.values(data_map);
+	var data = labels.map(function(key){
+    	return data_map[key];
+	});
 	var maxData = Math.max.apply( null, data );
 
 	// constants that determine the sizes of all the elements
 	const Y_OFFSET = 50, COLUMN_WIDTH = 50, COLUMN_INTERVAL = 10, COLUMN_HEIGHT = 1;
 	const 
 		// WIDTH = X_OFFSET + (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
-		WIDTH = $(div_id).width(),
+		WIDTH = ('.inner').width(),
 	 	HEIGHT = COLUMN_HEIGHT * maxData + Y_OFFSET*3;
 	 	GRAPH_WIDTH = (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
 	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2;
@@ -203,28 +206,15 @@ function labelEndpointsPosition( xOffset, columnWidth, columnInterval, numberOfC
 
 
 function draw_grouped_bar_chart(data_map, div_id, title) {
-	/*
-	[example of input format]
-	data_map = {
-		"ClassA": [[Group1,100],[Group2,150]],
-		"ClassB": [[Group1,120],[Group2,130]]
-	}
-	*/
-
 	// convert input data_map into arrays of classes, groups and raw data
 	var classes = Object.keys(data_map);
 	// assume data_map and class are not empty. each class have the same groups
 	var groups = data_map[classes[0]].map(function(v){return v[0];}).sort(); 
-	console.log("classes.length: "+ classes.length+", groups.length: "+groups.length);
-	console.log(classes);
-	console.log(groups);
 	// convert input data into an array by concatenating in year-school order
 	var data =[];
 	for (var i = 0; i < groups.length; i++){
 		for ( var aClass in data_map ) {
 			data.push(data_map[aClass][i][1]);}}
-	console.log("data: ");
-	console.log(data);
 
 	// constants that determine the sizes of all the elements
 	var maxData = d3.max(data);
@@ -233,7 +223,7 @@ function draw_grouped_bar_chart(data_map, div_id, title) {
 		Y_OFFSET = 0/*100*/,
 	 	HEIGHT = (BAR_HEIGHT_SCALE * maxData) + (Y_OFFSET * 2),
 
-		WIDTH = $(div_id).width(),
+		WIDTH = ('.inner').width(),
 	 	COLUMN_WIDTH = 70, COLUMN_INTERVAL = 30, SUBCOLUMN_INTERVAL = 0,
 	 	X_OFFSET = COLUMN_INTERVAL,
 	 	GROUP_WIDTH = classes.length * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL),
@@ -241,6 +231,10 @@ function draw_grouped_bar_chart(data_map, div_id, title) {
 	console.log(HEIGHT);
 	var margin = {left: 100, right: 100, top: 100, bottom: 100};
 
+	// add title
+	$('.inner').append("<div id='title'></div>");
+	var titleSvg = d3.select('#title').append("svg").attr("width", WIDTH).attr("height", 100);
+	titleSvg.append("text").attr("x", WIDTH/2).attr("y", 50).text(title);
 
 	// create svg
 	var svg = d3.select(div_id).append("svg")
@@ -338,12 +332,20 @@ function labelEndpointsPosition( xOffset, columnWidth, columnInterval, numberOfC
 
 
 // ************** PIE CHART **************** //
-function draw_pie_chart(data_map, div_id) {
+function draw_pie_chart(data_map, div_id, title) {
+	console.log("title is: "+ title);
 	// variables to determine the canvas size
-	var width = 400;
+	var width = $('.inner').width();
 	var height = 400;
 	var radius = 150;
 	var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+	// add title
+	$('.inner').prepend("<div id='title'></div>");
+	var titleSvg = d3.select('#title').append("svg").attr("width", width).attr("height", 100);
+	titleSvg.append("text").attr("x", width/2 - 100).attr("y", 50).text(title);
+
+	// create svg for chart
 	var svg = d3.select(div_id)
 	  .append('svg')
 	  .attr('width', width)
@@ -356,6 +358,7 @@ function draw_pie_chart(data_map, div_id) {
 	var pie = d3.pie()
 	  .value(function(d) { return d.count; })
 	  .sort(null);
+
 
 	// draw the pie chart
     var g = svg.selectAll(".arc")
