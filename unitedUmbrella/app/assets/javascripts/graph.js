@@ -115,74 +115,144 @@ function int_ceiling( x ) {
 // ************** BAR CHART **************** //
 
 function draw_bar_chart(data_map, div_id, title) {
+	/*
+	[example of input format]
+	data_map = {
+		"ClassA": [[Group1,100],[Group2,150]],
+		"ClassB": [[Group1,120],[Group2,130]]
+	}
+	*/
 
-	var labels = Object.keys(data_map);
-	var data = Object.values(data_map);
-	var maxData = Math.max.apply( null, data );
+	// convert input data_map into arrays of classes, groups and raw data
+	var classes = Object.keys(data_map);
+	// assume data_map and class are not empty. each class have the same groups
+	var groups = data_map[classes[0]].map(function(v){return v[0];}).sort(); 
+	console.log("classes.length: "+ classes.length+", groups.length: "+groups.length);
+	console.log(classes);
+	console.log(groups);
+	// convert input data into an array by concatenating in year-school order
+	var data =[];
+	for (var i = 0; i < groups.length; i++){
+		for ( var aClass in data_map ) {
+			data.push(data_map[aClass][i][1]);}}
+	console.log("data: ");
+	console.log(data);
 
 	// constants that determine the sizes of all the elements
-	const Y_OFFSET = 50, COLUMN_WIDTH = 50, COLUMN_INTERVAL = 10, COLUMN_HEIGHT = 1;
+	var maxData = d3.max(data);
 	const 
-		// WIDTH = X_OFFSET + (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
-		WIDTH = $(div_id).width(),
-	 	HEIGHT = COLUMN_HEIGHT * maxData + Y_OFFSET*3;
-	 	GRAPH_WIDTH = (COLUMN_WIDTH + COLUMN_INTERVAL) * labels.length,
-	 	X_OFFSET = (WIDTH - GRAPH_WIDTH)/2;
+		BAR_HEIGHT_SCALE = 1.5,
+		Y_OFFSET = 0/*100*/,
+	 	HEIGHT = (BAR_HEIGHT_SCALE * maxData) + (Y_OFFSET * 2),
 
-	// scale the x-axis
-	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,labels.length]);
-	var labelEndpoints = labelEndpointsPosition(X_OFFSET, COLUMN_WIDTH, COLUMN_INTERVAL, labels.length );
-	var x = d3.scaleOrdinal().domain(labels).range(
-		createArrayRange(labelEndpoints[0], labelEndpoints[1], COLUMN_WIDTH + COLUMN_INTERVAL)
-	);
-	var xAxis = d3.axisBottom(x);
+		WIDTH = $(div_id).width(),
+	 	COLUMN_WIDTH = 70, COLUMN_INTERVAL = 30, SUBCOLUMN_INTERVAL = 0,
+	 	X_OFFSET = COLUMN_INTERVAL,
+	 	GROUP_WIDTH = classes.length * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL),
+	 	GRAPH_WIDTH = groups.length * (GROUP_WIDTH + COLUMN_INTERVAL) - COLUMN_INTERVAL + 2 * X_OFFSET;
+	console.log(HEIGHT);
+	var margin = {left: 100, right: 100, top: 100, bottom: 100};
+
 
 	// create svg
-	var svg = d3.select(div_id).append("svg").attr("height", HEIGHT).attr("width", WIDTH);
+	var svg = d3.select("#graph").append("svg")
+      .attr("width", WIDTH + margin.left + margin.right)
+      .attr("height", HEIGHT + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-	// draw the bar chart
+	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,classes.length]);
+
+
+	// add bars
 	svg.selectAll("rect")
 		.data(data)
 		.enter().append("rect")
-		.attr("class", ".bartext")
-		.attr("height", function(d,i){return d*COLUMN_HEIGHT;})
+		.attr("height", function(d){return d * BAR_HEIGHT_SCALE;})
 		.attr("width", COLUMN_WIDTH)
-		.attr("fill",function(d,i) {return rainbow(i);})
-		.attr("x", function(d,i){return X_OFFSET+i*(COLUMN_WIDTH + COLUMN_INTERVAL);})
-		.attr("y",function(d,i){return HEIGHT - Y_OFFSET -(d*COLUMN_HEIGHT);});
+		.attr("fill", function(d,i){return rainbow(i % classes.length);})
+		.attr("x", function(d,i){
+			var group_index = Math.floor(i/classes.length);
+			var school_index = i % classes.length;
+			var x = X_OFFSET + group_index * (GROUP_WIDTH + COLUMN_INTERVAL) 
+					+ school_index * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL);
+			// console.log(x);
+			// console.log(group_index,school_index);
+			return x;})
+		.attr("y", function(d,i){
+			return HEIGHT - Y_OFFSET - (d * BAR_HEIGHT_SCALE);});
 
-	// draw the x-axis
+
+	// construct and draw x-axis
+	var x = d3.scaleBand()
+		.domain(groups)
+		.range([0,GRAPH_WIDTH]);
+	var xAxis = d3.axisBottom(x);
+
 	svg.append("g")
 		.attr("class","x axis")
-		.attr("transform","translate(0," + (HEIGHT-Y_OFFSET+10) + ")")
+		.attr("transform","translate(0," + (HEIGHT-Y_OFFSET) + ")")
 		.call(xAxis);
 
-	// graph title
-	svg.append("text")
-		.attr("x", (WIDTH / 2))             
-		.attr("y", Y_OFFSET)
-		.attr("text-anchor", "middle")  
-		.style("font-size", "24px")   
-		.style('fill', 'black')
-		.text(title);
+	// construct and draw y-axis
+	var y = d3.scaleLinear()
+		.domain([0, maxData])
+		.range([HEIGHT - Y_OFFSET, Y_OFFSET])
+		;
+	console.log(HEIGHT);
+	var yAxis = d3.axisLeft(y);
 
-	// add labels
-	svg.selectAll("text.labels").
-		data(data)
-		.enter().append("text")
-		.attr("x", function(d,i){
-			var offset = 0;
-			if ( d > 99 ) offset = COLUMN_WIDTH/8;
-			else if ( d > 9 ) offset = COLUMN_WIDTH/4;
-			else offset = COLUMN_WIDTH/2;
-			return offset + X_OFFSET+i*(COLUMN_WIDTH + COLUMN_INTERVAL)
-		;})
-		.attr("y", function(d,i){return HEIGHT-Y_OFFSET-(d*COLUMN_HEIGHT);} )
-		.attr("dx", "0.3em")
-		.attr("dy", -5)
-		.style('fill', 'black')
-	 	.text(String);
+	svg.append("g")
+		.attr("class", "y axis")
+		.attr("transform", "translate(0,0)")
+		.call(yAxis);
+
+	// // label x-axis
+	// svg.append("text")
+	//     .attr("class", "x label")
+	//     .attr("text-anchor", "end")
+	//     .attr("x", x(maxYear+1))
+	//     .attr("y", HEIGHT - 10)
+	//     .text("Year");
+	
+	// // label y-axis
+	// svg.append("text")
+	//     .attr("class", "y label")
+	//     .attr("text-anchor", "end")
+	//     .attr("y", 6)
+	//     .attr("dy", ".75em")
+	//     .attr("transform", "rotate(-90)")
+	//     .text("Total enrollment");
+
+ //   	// graph title
+	// svg.append("text")
+	// 	.attr("x", (WIDTH / 2))             
+	// 	.attr("y", Y_OFFSET/4)
+	// 	.attr("text-anchor", "middle")  
+	// 	.style("font-size", "24px")   
+	// 	.style('fill', 'black')
+	// 	.text("School enrollments");
+
+	var legend = svg.selectAll(".legend")
+		.data(classes.slice().reverse())
+		.enter().append("g")
+		.attr("class","legend")
+		.attr("transform", function(d,i) { return "translate(0," + i * 20 + ")"; });
+
+	legend.append("rect")
+		.attr("x", WIDTH - 300)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d,i){return rainbow(i % classes.length);});
+
+	legend.append("text")
+		.attr("x", WIDTH - 306)
+		.attr("y", 9)
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) { return d; });
 }
+
 
 // create an array of numbers of the form x = start + i*interval
 // where start <= x <= end

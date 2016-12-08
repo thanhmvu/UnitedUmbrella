@@ -262,26 +262,22 @@ function draw_grouped_bar_graph(data_map) {
 	// 	.text("School enrollments");
 }
 
-
 </script>
 
-
-
-<script type="text/javascript">
-// ================================= MAIN SCRIPT ===================================== //
+<script>
 var data_map = {};
 <% @all_data.each do |key,value| %>
 	var school_name = '<%= raw key %>';
-	data_map[school_name] = []
+	data_map[school_name] = [];
 	<% value.each do |data| %>
 		data_map[school_name].push([
-			<%= raw data.academic_year_end %>, 
-			<%= data.total %> 
+			<%= raw data.academic_year_end %>,
+			<%= data.total %>
 		]);
 	<% end %>
 <% end %>
-console.log(data_map);
-// draw_line_graph(data_map);
 draw_grouped_bar_graph(data_map);
 </script>
+
+
 
