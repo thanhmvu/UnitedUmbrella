@@ -1,0 +1,41 @@
+<h1>School Assessment#show</h1>
+
+<section class="wrapper style5">
+	<style>
+		.insideLabel {
+			font: 9px sans-serif;
+			text-anchor: middle;
+		}
+
+		.arc path {
+			stroke: #fff;
+		}
+
+		.outsideLabel {
+			font: bold 12px Arial;
+			fill: Purple;
+		}
+
+	</style>
+	<div class="inner">
+		<% unless @invalid_ids.empty? %>
+		<%= show_error_message("The following AUNs do not exist:\n" + @invalid_auns.join("\n")) %>
+		<% else %>
+		<div id="graph"></div>
+		<!-- <div id="graph2"></div>
+		<div id="graph3"></div>
+		<div id="graph4"></div> -->
+		<% end %>
+	</div>
+</section>
+
+
+<script type="text/javascript">
+	var data_map = [
+		{label: 'Below Basic',count: <%= @school.pct_below_basic%> },
+		{label: 'Basic',count: <%= @school.pct_basic%> },
+		{label: 'Proficient',count: <%= @school.pct_proficient %> },
+		{label: 'Advanced',count: <%= @school.pct_advanced %> }
+	];
+	draw_pie_chart(data_map, "#graph");
+</script>
