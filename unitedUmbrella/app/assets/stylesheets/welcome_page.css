@@ -4007,3 +4007,17 @@ ul.no-bullets { list-style-type: none; margin: 0px; padding: 0px; }
 	cursor: pointer;
 	cursor: hand;
 }
+
+.insideLabel {
+	font: 9px sans-serif;
+	text-anchor: middle;
+}
+
+.arc path {
+	stroke: #fff;
+}
+
+.outsideLabel {
+	font: bold 12px Arial;
+	fill: Purple;
+}

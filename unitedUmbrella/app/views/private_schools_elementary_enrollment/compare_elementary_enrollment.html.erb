@@ -8,21 +8,18 @@
     </div>
 </section>
 
-
 <script type="text/javascript">
-    <% if @invalid_auns.empty? %>
         var data_map = {};
         <% @all_data.each do |key,value| %>
-        var school_name = '<%= raw key %>';
-        data_map[school_name] = []
-        <% value.each do |data| %>
-        data_map[school_name].push([
-            <%= raw data.academic_year_end %>,
-            <%= data.totalee %>
-            ]);
-        <% end %>
+            var school_name = '<%= raw key %>';
+            data_map[school_name] = []
+            <% value.each do |data| %>
+                data_map[school_name].push([
+                    <%= raw data.academic_year_end %>,
+                    <%= data.totalee %>
+                    ]);
+            <% end %>
         <% end %>
         console.log(data_map);
-        draw_line_chart(data_map, "#graph");
-    <% end %>   
+        draw_line_chart(data_map, "#graph");  
 </script>

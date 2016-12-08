@@ -1,22 +1,4 @@
-<h1>School Assessment#show</h1>
-
 <section class="wrapper style5">
-	<style>
-		.insideLabel {
-			font: 9px sans-serif;
-			text-anchor: middle;
-		}
-
-		.arc path {
-			stroke: #fff;
-		}
-
-		.outsideLabel {
-			font: bold 12px Arial;
-			fill: Purple;
-		}
-
-	</style>
 	<div class="inner">
 		<% unless @invalid_ids.empty? %>
 		<%= show_error_message("The following AUNs do not exist:\n" + @invalid_auns.join("\n")) %>
@@ -37,5 +19,6 @@
 		{label: 'Proficient',count: <%= @school.pct_proficient %> },
 		{label: 'Advanced',count: <%= @school.pct_advanced %> }
 	];
-	draw_pie_chart(data_map, "#graph");
+	var name = '<%= @school_name.school_name %>';
+	draw_pie_chart(data_map, "#graph", "Assessment of school " + name);
 </script>

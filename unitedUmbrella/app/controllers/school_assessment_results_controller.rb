@@ -5,5 +5,6 @@ class SchoolAssessmentResultsController < ApplicationController
   	def show
 	    @invalid_ids = Array.new
 		@school = SchoolAssessmentResults.find_by(school_id: params[:id])
+		@school_name = PublicSchool.find_by(school_id: params[:id])
 	end
 end
