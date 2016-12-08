@@ -121,12 +121,9 @@ function int_ceiling( x ) {
 
 // ================================= Bar Graph ===================================== //
 function draw_grouped_bar_graph(data_map) {
-	/*
-	// data_map = {
-	// 	"ClassA": [[Group1,100],[Group2,150]],
-	// 	"ClassB": [[Group1,120],[Group2,130]]
-	// }
-	*/
+	// add title
+	$('.inner').append("<div id='title'></div>");
+	
 
 	// convert input data_map into arrays of classes, groups and raw data
 	var classes = Object.keys(data_map);
@@ -149,14 +146,13 @@ function draw_grouped_bar_graph(data_map) {
 		BAR_HEIGHT_SCALE = 1.5,
 		Y_OFFSET = 0/*100*/,
 	 	HEIGHT = (BAR_HEIGHT_SCALE * maxData) + (Y_OFFSET * 2),
-
 		WIDTH = $('#graph').width(),
 	 	COLUMN_WIDTH = 70, COLUMN_INTERVAL = 30, SUBCOLUMN_INTERVAL = 0,
 	 	X_OFFSET = COLUMN_INTERVAL,
 	 	GROUP_WIDTH = classes.length * (COLUMN_WIDTH + SUBCOLUMN_INTERVAL),
 	 	GRAPH_WIDTH = groups.length * (GROUP_WIDTH + COLUMN_INTERVAL) - COLUMN_INTERVAL + 2 * X_OFFSET;
 	console.log(HEIGHT);
-	var margin = {left: 100, right: 100, top: 100, bottom: 100};
+	var margin = {left: 100, right: 100, top: 100, bottom: 50};
 
 
 	// create svg
@@ -164,7 +160,7 @@ function draw_grouped_bar_graph(data_map) {
       .attr("width", WIDTH + margin.left + margin.right)
       .attr("height", HEIGHT + margin.top + margin.bottom)
       .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,classes.length]);
 
@@ -211,6 +207,33 @@ function draw_grouped_bar_graph(data_map) {
 		.attr("class", "y axis")
 		.attr("transform", "translate(0,0)")
 		.call(yAxis);
+	
+	// add legends
+	$('.inner').append("<div id='legend'></div>");
+	svg = d3.select("#legend").append("svg")
+      .attr("width", WIDTH)
+      .attr("height", 100)
+      .append("g")
+
+	var legend = svg.selectAll(".legend")
+		.data(classes.slice().reverse())
+		.enter().append("g")
+		.attr("class","legend")
+		.attr("transform", function(d,i) { return "translate(0," + i * 30 + ")"; });
+
+	legend.append("rect")
+		.attr("x", WIDTH - 100)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d,i){return rainbow(i % classes.length);});
+
+	legend.append("text")
+		.attr("x", WIDTH - 100)
+		.attr("y", 9)
+		.attr("dy", ".35em")
+		.attr("dx", "-.35em")
+		.style("text-anchor", "end")
+		.text(function(d) { return d; });
 
 	// // label x-axis
 	// svg.append("text")
@@ -237,26 +260,9 @@ function draw_grouped_bar_graph(data_map) {
 	// 	.style("font-size", "24px")   
 	// 	.style('fill', 'black')
 	// 	.text("School enrollments");
-
-	var legend = svg.selectAll(".legend")
-		.data(classes.slice().reverse())
-		.enter().append("g")
-		.attr("class","legend")
-		.attr("transform", function(d,i) { return "translate(0," + i * 20 + ")"; });
-
-	legend.append("rect")
-		.attr("x", WIDTH - 300)
-		.attr("width", 18)
-		.attr("height", 18)
-		.style("fill", function(d,i){return rainbow(i % classes.length);});
-
-	legend.append("text")
-		.attr("x", WIDTH - 306)
-		.attr("y", 9)
-		.attr("dy", ".35em")
-		.style("text-anchor", "end")
-		.text(function(d) { return d; });
 }
+
+
 </script>
 
 

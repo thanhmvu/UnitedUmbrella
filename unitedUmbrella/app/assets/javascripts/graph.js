@@ -1,15 +1,28 @@
 
 // ************** LINE CHART **************** //
-function draw_line_chart(data_map, div_id) {
+function draw_line_chart(data_map, div_id, title) {
 
     // convert input data into arrays
     var school_names = Object.keys(data_map);
 
     // constants that determine the sizes of all the elements
-    const WIDTH = $(div_id).width(), HEIGHT = 400, Y_OFFSET = 100, X_OFFSET = 10;
+    const WIDTH = $(div_id).width(), HEIGHT = 400, Y_OFFSET = 0, X_OFFSET = 10;
+
+    // add title
+    $('.inner').append("<div id='title'></div>");
+    var svg = d3.select('#title').append("svg").attr("height", 100).attr("width", WIDTH);
+
+    svg.append("text")
+    .attr("x", (WIDTH / 2))
+    .attr("y", Y_OFFSET/4)
+    .attr("text-anchor", "middle")
+    .style("font-size", "24px")
+    .style('fill', 'black')
+    .text(title);
+
 
     // create the canvas
-    var svg = d3.select(div_id).append("svg").attr("height", HEIGHT).attr("width", WIDTH);
+    svg = d3.select(div_id).append("svg").attr("height", HEIGHT).attr("width", WIDTH);
     var rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0,school_names.length]);
 
     for ( var school_index = 0 ; school_index < school_names.length ; school_index ++ ) {
@@ -90,14 +103,6 @@ function draw_line_chart(data_map, div_id) {
     .attr("transform", "rotate(-90)")
     .text("Total Elementary Enrollment");
 
-    // graph title
-    svg.append("text")
-    .attr("x", (WIDTH / 2))
-    .attr("y", Y_OFFSET/4)
-    .attr("text-anchor", "middle")
-    .style("font-size", "24px")
-    .style('fill', 'black')
-    .text("Private School Elementary Enrollments");
 }
 
 
@@ -109,7 +114,7 @@ function int_ceiling( x ) {
 
 // ************** BAR CHART **************** //
 
-function draw_bar_chart(data_map, div_id) {
+function draw_bar_chart(data_map, div_id, title) {
 
 	var labels = Object.keys(data_map);
 	var data = Object.values(data_map);
@@ -159,7 +164,7 @@ function draw_bar_chart(data_map, div_id) {
 		.attr("text-anchor", "middle")  
 		.style("font-size", "24px")   
 		.style('fill', 'black')
-		.text("Number of Schools by LEA_TYPE");
+		.text(title);
 
 	// add labels
 	svg.selectAll("text.labels").
