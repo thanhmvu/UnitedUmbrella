@@ -48,17 +48,28 @@
 								<button class="button special"> Submit </button>
 							</li>			
 						</ul>
+				</div>
+			</form>
+			<form method="get" action="public_school_enrollment">
+				<div class="row uniform">
 					<div class="12u$">
-						<h5>OR Select a school</h5>
+						<h5>OR Select a LEA</h5>
 						<div class="select-wrapper">
 							<select name="school-dropdown" id="school-dropdown">
-								<option value="">- Select a School -</option>
+								<option value="">- Select a LEA -</option>
 								<% @schools.each do | s | %>
 								   	<option value="<%= s.aun %> "> <%= s.school_name %> </option>
 								<% end %>
 							</select>
 						</div>
+						<input type="hidden" name="aun" value="">
 					</div>
+					<ul class="actions">
+							<li>
+								<button class="button special"> Submit </button>
+							</li>			
+						</ul>
+
 				</div>
 			</form>
 
