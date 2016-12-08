@@ -202,7 +202,7 @@ function labelEndpointsPosition( xOffset, columnWidth, columnInterval, numberOfC
 }
 
 
-function draw_group_bar_chart(data_map, title) {
+function draw_grouped_bar_chart(data_map, div_id, title) {
 	/*
 	[example of input format]
 	data_map = {
@@ -243,7 +243,7 @@ function draw_group_bar_chart(data_map, title) {
 
 
 	// create svg
-	var svg = d3.select("#graph").append("svg")
+	var svg = d3.select(div_id).append("svg")
       .attr("width", WIDTH + margin.left + margin.right)
       .attr("height", HEIGHT + margin.top + margin.bottom)
       .append("g")
@@ -295,32 +295,7 @@ function draw_group_bar_chart(data_map, title) {
 		.attr("transform", "translate(0,0)")
 		.call(yAxis);
 
-	// // label x-axis
-	// svg.append("text")
-	//     .attr("class", "x label")
-	//     .attr("text-anchor", "end")
-	//     .attr("x", x(maxYear+1))
-	//     .attr("y", HEIGHT - 10)
-	//     .text("Year");
-	
-	// // label y-axis
-	// svg.append("text")
-	//     .attr("class", "y label")
-	//     .attr("text-anchor", "end")
-	//     .attr("y", 6)
-	//     .attr("dy", ".75em")
-	//     .attr("transform", "rotate(-90)")
-	//     .text("Total enrollment");
-
- //   	// graph title
-	// svg.append("text")
-	// 	.attr("x", (WIDTH / 2))             
-	// 	.attr("y", Y_OFFSET/4)
-	// 	.attr("text-anchor", "middle")  
-	// 	.style("font-size", "24px")   
-	// 	.style('fill', 'black')
-	// 	.text("School enrollments");
-
+	// add labels
 	var legend = svg.selectAll(".legend")
 		.data(classes.slice().reverse())
 		.enter().append("g")
