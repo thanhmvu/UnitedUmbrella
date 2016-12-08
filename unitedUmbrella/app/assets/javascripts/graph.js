@@ -352,10 +352,6 @@ function draw_pie_chart(data_map, div_id, title) {
 	var radius = 150;
 	var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-	// add title
-	$('.inner').prepend("<div id='title'></div>");
-	var titleSvg = d3.select('#title').append("svg").attr("width", width).attr("height", 100);
-	titleSvg.append("text").attr("x", width/2 - 150).attr("y", 50).text(title);
 
 	// create svg for chart
 	var svg = d3.select(div_id)
@@ -372,16 +368,25 @@ function draw_pie_chart(data_map, div_id, title) {
 	  .sort(null);
 
 
+
 	// draw the pie chart
     var g = svg.selectAll(".arc")
     	.data(pie(data_map))
     	.enter().append("g")
     	.attr("class", "arc");
-    g.append("path")
+    	g.append("path")
     	.attr("d", arc)
     	.style("fill", function(d){ return color(d.data.label); });
 
-    // add value inside the pies
+   	// add title
+    svg.append("text")
+    	.attr("x", 10)
+    	.attr("y", 200 )
+    	.attr("text-anchor", "middle")
+    	.attr("font-size", "16px")
+    	.text(title);
+
+    // add labels outside the pies
     g.append("text")
     	.attr("transform", function(d){ 
     		return "translate(" + labelArc.centroid(d) + ")"; 
@@ -389,14 +394,15 @@ function draw_pie_chart(data_map, div_id, title) {
     	.attr("dy", ".35em")
     	.attr("text-anchor", "middle")
     	.attr("class", "outsideLabel")
-    	.text( function(d) { return d.data.label; });
+    	.text( function(d) { if ( d.data.count > 3 ) return d.data.label; return ""; });
 
-    // add labels outside the pies
+    // add value inside the pies
     g.append("text")
     	.attr("transform", function(d) {
     		return "translate(" + arc.centroid(d) + ")";
     	})
     	.attr("class", "insideLabel")
     	.text(function(d){ return d.data.count; } );
+
 }
 
