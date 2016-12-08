@@ -110,6 +110,8 @@ $(document).on('turbolinks:load', function() {
 
 var ready = function() {
 	$('#select-lea').val('');
+	$('#select-id').val('');
+	$('#select-pid').val('');
 
 	// trigger all form submissions
 	$('.button').on('click', function() {
@@ -126,6 +128,8 @@ var ready = function() {
 	});
 
 	$('#submit_multiple_lea').attr('disabled', true);
+	$('#submit_multiple_id').attr('disabled', true);
+	$('#submit_multiple_pid').attr('disabled', true);
 
 	// add the corresponding number of input fields
 	// enable submit button
@@ -138,24 +142,51 @@ var ready = function() {
 		var numberOfBoxes = $(this).val();
 		$('#submit_multiple_lea').attr('disabled', false);	
 		for ( var i = 1 ; i <= numberOfBoxes ; i++ ) {
-			createInputBox( i, numberOfBoxes, "ID" );
+			createInputBox( "#multiple_lea_inputs", i, numberOfBoxes, "ID" );
+		}
+	});
+
+	$('#select-id').on('change', function () {
+		$('#multiple_id_inputs').empty();
+		if ( $(this).val() == "" ) {
+			$('#submit_multiple_id').attr('disabled', true);
+			return;
+		}
+		var numberOfBoxes = $(this).val();
+		$('#submit_multiple_id').attr('disabled', false);	
+		for ( var i = 1 ; i <= numberOfBoxes ; i++ ) {
+			createInputBox( "#multiple_id_inputs", i, numberOfBoxes, "ID" );
+		}
+	});
+
+	$('#select-pid').on('change', function () {
+		$('#multiple_pid_inputs').empty();
+		if ( $(this).val() == "" ) {
+			$('#submit_multiple_pid').attr('disabled', true);
+			return;
+		}
+		var numberOfBoxes = $(this).val();
+		$('#submit_multiple_pid').attr('disabled', false);	
+		for ( var i = 1 ; i <= numberOfBoxes ; i++ ) {
+			createInputBox( "#multiple_pid_inputs", i, numberOfBoxes, "ID" );
 		}
 	});
 }
 
-function createInputBox( id, numberOfBoxes, typeOfInput ) {
+function createInputBox( div_id, id, numberOfBoxes, typeOfInput ) {
 	var inputBox;
+	var placeHolderName = typeOfInput.toLowerCase();
 	if ( numberOfBoxes % 2 == 0 ) {
 		inputBox = $(" \
 			<div class='6u 12u$(xsmall)'> \
-				<input type='text' name='aun" + id + "' value='' placeholder='" + typeOfInput + " of school " + id + "' /> \
-			</div>'").appendTo('#multiple_lea_inputs');
+				<input type='text' name='" + placeHolderName + id + "' value='' placeholder='" + typeOfInput + " of school " + id + "' /> \
+			</div>'").appendTo(div_id);
 	}
 	else {
 		inputBox = $(" \
 			<div class='4u 12u$(xsmall)'> \
-				<input type='text' name='aun" + id + "' value='' placeholder='" + typeOfInput + " of school " + id + "' /> \
-			</div>'").appendTo('#multiple_lea_inputs');
+				<input type='text' name='" + placeHolderName + id + "' value='' placeholder='" + typeOfInput + " of school " + id + "' /> \
+			</div>'").appendTo(div_id);
 	}
 }
 

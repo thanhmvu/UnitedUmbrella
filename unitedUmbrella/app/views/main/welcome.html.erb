@@ -53,7 +53,7 @@
 			<form method="get" action="main/view_public_by_lea">
 				<div class="row uniform">
 					<div class="12u$">
-						<h5>OR Select a LEA</h5>
+						<h4>OR Select a LEA</h4>
 						<div class="select-wrapper">
 							<select id="school-dropdown">
 								<option value="">- Select a LEA -</option>
@@ -67,7 +67,7 @@
 				</div>
 			</form>
 
-			<!-- COMPARE MULTIPLE PUBLIC SCHOOLS BASED ON LEA -->
+			<!-- COMPARE MULTIPLE PUBLIC SCHOOLS ENROLLMENT BASED ON ID -->
 			<h4>Compare school enrollments </h4>
 			<div class="row uniform">
 				<div class="4u$">
@@ -93,6 +93,77 @@
 					<ul class="actions">
 						<li>
 							<button class="button special" id="submit_multiple_lea"> Submit </button>
+						</li>			
+					</ul>
+				</div>
+			</form>
+
+			<!-- COMPARE MULTIPLE PUBLIC SCHOOLS ENROLLMENT BASED ON ID AND GENDER -->
+			<h4>View school(s) based on gender</h4>
+			<div class="row uniform">
+				<div class="4u$">
+					<div class="select-wrapper">
+						<select name="demo-category" id="select-id">
+							<option value="">- Select number of schools -</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+						</select>
+					</div>
+				</div>			
+			</div>
+
+
+			<form method="get" action="/public_school_gender_enrollment/compare">
+				<div class="row uniform" id="multiple_id_inputs">
+				</div>
+				<br>
+				<div class="row uniform">
+					<div class="6u 12u$(small)">
+						<input type="radio" id="male-button" name="gen" value="M" checked>
+						<label for="male-button">Male</label>
+					</div>
+					<div class="6u 12u$(small)">
+						<input type="radio" id="female-button" name="gen" value="F">
+						<label for="female-button">Female</label>
+					</div>
+					<ul class="actions">
+						<li>
+							<button class="button special" id="submit_multiple_id"> Submit </button>
+						</li>			
+					</ul>
+				</div>
+			</form>
+
+
+
+			<!-- COMPARE PRIVATE SCHOOLS -->
+			<h4>Compare private school(s)</h4>
+			<div class="row uniform">
+				<div class="4u$">
+					<div class="select-wrapper">
+						<select name="demo-category" id="select-pid">
+							<option value="">- Select number of schools -</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+						</select>
+					</div>
+				</div>			
+			</div>
+
+
+			<form method="get" action="/private_schools_elementary_enrollment/compare_elementary_enrollment">
+				<div class="row uniform" id="multiple_pid_inputs">
+				</div>
+				<br>
+				<div class="row uniform">
+					<ul class="actions">
+						<li>
+							<button class="button special" id="submit_multiple_pid"> Submit </button>
 						</li>			
 					</ul>
 				</div>
