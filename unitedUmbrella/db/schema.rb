@@ -22,13 +22,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "samplevalue", limit: 80
   end
 
-  create_table "edprojectattributescopy", id: false, force: :cascade do |t|
-    t.string "source",      limit: 80
-    t.string "name",        limit: 30
-    t.string "description", limit: 160
-    t.string "samplevalue", limit: 80
-  end
-
   create_table "private_schools_elementary_enrollment", primary_key: ["aun", "academic_year_start", "academic_year_end"], force: :cascade do |t|
     t.integer "aun",                            null: false
     t.integer "academic_year_start",            null: false
