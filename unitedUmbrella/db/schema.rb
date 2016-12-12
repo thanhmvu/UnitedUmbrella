@@ -359,11 +359,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.string  "growth",          limit: 20
   end
 
-  create_table "test", id: false, force: :cascade do |t|
-    t.string "col1", limit: 10
-    t.string "col2", limit: 10
-  end
-
   create_table "versions", id: false, force: :cascade do |t|
     t.string   "major",   limit: 5
     t.string   "minor",   limit: 5
