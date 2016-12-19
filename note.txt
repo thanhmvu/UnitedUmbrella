@@ -1,8 +1,0 @@
-Generate a model for a relation
-- Call "rails generate model <model-name>”
-- Go to app/models/<model-name>.rb to match the model's name with the relation's name using “self.table_name = <table-name-in-db>”
-- This will create associating file(s) in db/migrate. Delete them
-
-Generate controller & view
-- Call "rails generate controller controllerName view1 view2 ..."
-- This create/ edit files in app/controllers, app/views, config/route.rb
