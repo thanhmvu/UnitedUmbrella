@@ -1,6 +1,5 @@
 # United Umbrella
-United Umbrella is a web appication that provide user-friendly, searchable interface for more than 200,000 data points in different Pennsylvania Department of Education's datasets. 
-The app was created as a group project for Lafayette CS310: Database Management System, under team name UmbrellaCorp, and was meant to be used by our client, United Way of the Greater Lehigh Valley.
+United Umbrella is a web appication that provide user-friendly, searchable interface for more than 200,000 data points in different Pennsylvania Department of Education's datasets. The app was created as a group project for Lafayette CS310: Database Management System, under team name UmbrellaCorp, and was meant to be used by our client, United Way of the Greater Lehigh Valley.
 
 ## Database Overview
 
@@ -13,3 +12,10 @@ The app was created as a group project for Lafayette CS310: Database Management 
 2. Huy Nguyen
 3. Michael Teddick
 4. Thanh Vu
+
+## Project Presentation
+Click to view the video below
+
+[<img src="https://github.com/thanhmvu/UnitedUmbrella/blob/master/screenshots/thumbnails.png" alt="Project presentation video" width="500">](https://youtu.be/JVMdNrKr7ro)
+
+Or copy paste this link https://youtu.be/JVMdNrKr7ro
