@@ -1,6 +1,9 @@
 # United Umbrella
 United Umbrella is a web appication that provide user-friendly, searchable interface for more than 200,000 data points in different Pennsylvania Department of Education's datasets. The app was created as a group project for Lafayette CS310: Database Management System, under team name UmbrellaCorp, and was meant to be used by our client, United Way of the Greater Lehigh Valley.
 
+This project is currently being intergrated into a larger database system under the supervision of Dr. Joann J. Ordille. More information can be found in the link below.  
+http://sites.lafayette.edu/ordillej/projects/united-way-project-overview/
+
 ## Database Overview
 
 1. Enrollment Data of Public Schools: Data was organized by county, year data was collected, grade level and racial and gender makeup.
